@@ -1,3 +1,6 @@
 [submodule "production"]
 	path = production
 	url = git@github.com:rishabh1403/portfolio.git
+[submodule "deployment"]
+	path = deployment
+	url = git@github.com:rishabh1403/portfolio.git
