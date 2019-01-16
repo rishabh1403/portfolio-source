@@ -10,6 +10,9 @@ rm -rf deployment/*
 # Build the project.
 npm run build
 
+# copy build contents to deployment folder
+cp -vr build/* deployment
+
 # Go To Public folder
 cd deployment
 # Add changes to git.
