@@ -27,3 +27,13 @@ git push origin master
 
 # Come Back up to the Project Root
 cd ..
+
+# commit change in main repo about deployment
+
+git add .
+
+deploymentMsg="deployed portfolio on `date`"
+
+git commit -m "$deploymentMsg"
+
+
