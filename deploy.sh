@@ -39,4 +39,4 @@ deploymentMsg="deployed portfolio on `date`"
 
 git commit -m "$deploymentMsg"
 
-
+git push origin master
