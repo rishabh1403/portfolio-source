@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
+import Traverse from './Traverse';
 import Message from './Message';
+
+const traverse = new Traverse();
 class App extends Component {
 
   constructor(props) {
@@ -8,9 +11,12 @@ class App extends Component {
     this.state = {
       command: "",
       commands: [],
+      traverse:{}
     }
   }
+  componentWillMount(){
 
+  }
   handleOnChange(e) {
     this.setState({
       command: e.target.value
@@ -18,7 +24,7 @@ class App extends Component {
   }
   renderCommands() {
     return this.state.commands.map(el => {
-      return <Message command={el} />
+      return <Message command={traverse.ls().toString()} />
     })
   }
   handleClick() {
