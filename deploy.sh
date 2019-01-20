@@ -10,13 +10,13 @@ rm -rf deployment/*
 
 echo -e "\033[0;32mBuilding Project...\033[0m"
 
-npm run build
+npm run build > success.log
 
 # copy build contents to deployment folder
 
 echo -e "\033[0;32mCopying files to deployment directory...\033[0m"
 
-cp -vr build/* deployment
+cp -r build/* deployment
 
 
 echo -e "\033[0;32mDeploying new updates to server...\033[0m"
@@ -50,4 +50,4 @@ git commit -m "$deploymentMsg"
 
 git push origin master
 
-echo -e "\033[0;32mDSafe exit from script...\033[0m"
+echo -e "\033[0;32mSafe exit from script...\033[0m"
