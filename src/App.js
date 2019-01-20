@@ -17,9 +17,17 @@ class App extends Component {
     // this.state = { html: "<b>Hello <i>World</i></b>" };
     this.textInput = React.createRef();
   }
+  componentDidMount(){
+    this.contentEditable.current.focus();
+    setInterval(()=>{
+      
+      this.contentEditable.current.focus();
+    },1000)
+    console.log(this.contentEditable);
+  }
   handleChange = evt => {
     console.log(evt);
-    if (evt.nativeEvent.inputType === 'insertParagraph') {
+    if (/<br>/.test(evt.target.value)) {
       // console.log("enter press")
       this.handleClick();
     }
@@ -55,33 +63,23 @@ class App extends Component {
   }
 
   render() {
-    const { command } = this.state;
+    // const { command } = this.state;
     return (
       <div className="App">
         {this.renderCommands()}
         <div>
           <div>
-            Type here
-            <span>
+            <span className="shell"><b>$ ></b></span>
 
               <ContentEditable
-                innerRef={this.contentEditable}
-                html={this.state.command} // innerHTML of the editable div
-                disabled={false}       // use true to disable editing
-                onChange={this.handleChange} // handle innerHTML change
-                tagName='span' // Use a custom HTML tag (uses a div by default)
-              />
-
-
-
-              {/* <form onSubmit={this.handleClick.bind(this)}> */}
-              {/* <div className="cursor"> */}
-              {/* <span ref={this.textInput} onKeyPress={this.handleOnChange.bind(this)} contentEditable="true" /> */}
-              {/* <input value={command} onChange={this.handleOnChange.bind(this)} /> */}
-              {/* <i /> */}
-              {/* </div> */}
-              {/* </form> */}
-            </span>
+              className="test"
+              innerRef={this.contentEditable}
+              html={this.state.command} // innerHTML of the editable div
+              disabled={false}       // use true to disable editing
+              onChange={this.handleChange} // handle innerHTML change
+              tagName='span' // Use a custom HTML tag (uses a div by default)
+            />
+            <div className="cursor"></div>
           </div>
         </div>
       </div>
