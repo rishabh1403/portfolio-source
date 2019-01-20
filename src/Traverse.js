@@ -91,9 +91,8 @@ class Traverse {
       } else {
         this.path = [...this.path, ...name]
       }
-
-
     }
+    return {};
   }
 
 }
@@ -217,6 +216,8 @@ In CD
     check for ... or other chars
     after split check if obj returns anythig,,,, else throw error
     handle trailing slash
+    handle ../xyz
+    
 
 In OBJ
     define structre

@@ -901,6 +901,11 @@
     "@svgr/core" "^2.4.1"
     loader-utils "^1.1.0"
 
+"@types/prop-types@^15.5.6":
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.8.tgz#8ae4e0ea205fe95c3901a5a1df7f66495e3a56ce"
+  integrity sha512-3AQoUxQcQtLHsK25wtTWIoIpgYjH3vSDroZOUr7PpCHw/jLY1RB9z9E8dBT/OSmwStVgkRNvdh+ZHNiomRieaw==
+
 "@types/q@^1.5.1":
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
@@ -7948,6 +7953,14 @@ react-app-polyfill@^0.2.0:
     promise "8.0.2"
     raf "3.4.0"
     whatwg-fetch "3.0.0"
+
+react-contenteditable@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/react-contenteditable/-/react-contenteditable-3.2.5.tgz#abdeae18a0677ae758a84c686bc3227b92b708e9"
+  integrity sha512-WsPoW+qwpls/0sf0txSPmKY6rIKG6SLEOIolQVUDYWhaIPeExikfy/KN+cAP/44FO6udNdtbXq5Me6Tlns4a+w==
+  dependencies:
+    "@types/prop-types" "^15.5.6"
+    fast-deep-equal "^2.0.1"
 
 react-dev-utils@^7.0.1:
   version "7.0.1"
