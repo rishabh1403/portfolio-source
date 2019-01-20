@@ -36,7 +36,9 @@ cd ..
 git add .
 
 deploymentMsg="deployed portfolio on `date`"
-
+if [ $# -eq 1 ]
+then deploymentMsg="$1"
+fi
 git commit -m "$deploymentMsg"
 
 git push origin master

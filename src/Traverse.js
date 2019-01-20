@@ -49,6 +49,18 @@ class Traverse {
             return "Not a directory";
         }
     }
+    cat(){
+        let ans = this.obj;
+        for (let i of this.path) {
+            ans = ans.value[i];
+        }
+        if (ans.type === 'file') {
+            console.log(ans.value)
+        } else {
+            console.log("cant cat a dir");
+        }
+
+    }
     pwd() {
         return "~/" + this.path.join("/");
     }

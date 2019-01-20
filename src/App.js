@@ -24,7 +24,9 @@ class App extends Component {
   }
   renderCommands() {
     return this.state.commands.map(el => {
-      return <Message command={traverse.ls().toString()} />
+      let lsresult = Object.keys(traverse.ls()).toString();
+
+      return <Message command={lsresult} />
     })
   }
   handleClick() {
