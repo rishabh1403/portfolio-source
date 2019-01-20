@@ -30,10 +30,10 @@ msg="rebuilding portfolio `date`"
 if [ $# -eq 1 ]
 then msg="$1"
 fi
-git commit -m "$msg"
+git commit -m "$msg" > deploycommit.log
 
 # Push source and build repos.
-git push origin master
+git push origin master > deploypush.log
 
 # Come Back up to the Project Root
 cd ..
@@ -46,8 +46,8 @@ deploymentMsg="deployed portfolio on `date`"
 if [ $# -eq 1 ]
 then deploymentMsg="$1"
 fi
-git commit -m "$deploymentMsg"
+git commit -m "$deploymentMsg" > pushcommit.log
 
-git push origin master
+git push origin master > pushpush.log
 
 echo -e "\033[0;32mSafe exit from script...\033[0m"
