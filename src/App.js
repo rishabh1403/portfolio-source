@@ -17,12 +17,12 @@ class App extends Component {
     // this.state = { html: "<b>Hello <i>World</i></b>" };
     this.textInput = React.createRef();
   }
-  componentDidMount(){
+  componentDidMount() {
     this.contentEditable.current.focus();
-    setInterval(()=>{
-      
+    setInterval(() => {
+
       this.contentEditable.current.focus();
-    },1000)
+    }, 1000)
     console.log(this.contentEditable);
   }
   handleChange = evt => {
@@ -71,8 +71,10 @@ class App extends Component {
           <div>
             <span className="shell"><b>$ ></b></span>
 
-              <ContentEditable
+            <ContentEditable
               className="test"
+              autocorrect="off"
+              autocapitalize="none"
               innerRef={this.contentEditable}
               html={this.state.command} // innerHTML of the editable div
               disabled={false}       // use true to disable editing
