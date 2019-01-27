@@ -40,7 +40,7 @@ class App extends Component {
     const commandOptions = command.split(' ');
     let lsresult = '';
     if (commandOptions[0] === 'ls') {
-      lsresult = Object.keys(traverse.ls()).join(' ');
+      lsresult = traverse.ls();
     } else if (commandOptions[0] === 'cd') {
       lsresult = Object.keys(traverse.cd(commandOptions[1])).join(' ');
     } else if (commandOptions[0] === 'help') {
@@ -78,8 +78,8 @@ class App extends Component {
 
           <ContentEditable
             className="test"
-            autocorrect="off"
-            autocapitalize="none"
+            autoCorrect="off"
+            autoCapitalize="none"
             innerRef={this.contentEditable}
             html={this.state.command} // innerHTML of the editable div
             disabled={false}       // use true to disable editing
