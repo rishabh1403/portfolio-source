@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Traverse from './Traverse';
 import Message from './Message';
+import WelcomeText from './WelcomeText'
 import ContentEditable from 'react-contenteditable'
 
 const traverse = new Traverse();
@@ -42,7 +43,10 @@ class App extends Component {
       lsresult = Object.keys(traverse.ls()).join(' ');
     } else if (commandOptions[0] === 'cd') {
       lsresult = Object.keys(traverse.cd(commandOptions[1])).join(' ');
+    } else if (commandOptions[0] === 'help') {
+      lsresult = `Type 'ls' to check contents of current directory, 'cd' to change directory`;
     }
+
     this.setState({
       commands: [...commands, lsresult],
     }, () => {
@@ -65,26 +69,26 @@ class App extends Component {
   render() {
     // const { command } = this.state;
     return (
-      <div className="App">
+      <React.Fragment>
+        <WelcomeText />
         {this.renderCommands()}
-        <div>
-          <div>
-            <span className="shell"><b>$ ></b></span>
+        <React.Fragment>
+          
+          <span className="shell"><b>$ ></b></span>
 
-            <ContentEditable
-              className="test"
-              autocorrect="off"
-              autocapitalize="none"
-              innerRef={this.contentEditable}
-              html={this.state.command} // innerHTML of the editable div
-              disabled={false}       // use true to disable editing
-              onChange={this.handleChange} // handle innerHTML change
-              tagName='span' // Use a custom HTML tag (uses a div by default)
-            />
-            <div className="cursor"></div>
-          </div>
-        </div>
-      </div>
+          <ContentEditable
+            className="test"
+            autocorrect="off"
+            autocapitalize="none"
+            innerRef={this.contentEditable}
+            html={this.state.command} // innerHTML of the editable div
+            disabled={false}       // use true to disable editing
+            onChange={this.handleChange} // handle innerHTML change
+            tagName='span' // Use a custom HTML tag (uses a div by default)
+          />
+          <div className="cursor"></div>
+        </React.Fragment>
+      </React.Fragment>
     );
   }
 }
