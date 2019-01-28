@@ -13,7 +13,7 @@ class Traverse {
                     },
                 },
                 contact: {
-                    type: 'file',
+                    type: 'directory',
                     value: {
                         github: {
                             type: 'directory',
@@ -40,6 +40,7 @@ class Traverse {
     }
 
     ls() {
+        console.log(this.path);
         let ans = this.home;
         for (let i of this.path) {
             ans = ans.value[i];

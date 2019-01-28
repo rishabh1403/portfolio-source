@@ -40,9 +40,9 @@ class App extends Component {
     const commandOptions = command.split(' ');
     let lsresult = '';
     if (commandOptions[0] === 'ls') {
-      lsresult = traverse.ls();
+      lsresult = [traverse.ls(), command];
     } else if (commandOptions[0] === 'cd') {
-      lsresult = Object.keys(traverse.cd(commandOptions[1])).join(' ');
+      lsresult = [traverse.cd(commandOptions[1]), command];
     } else if (commandOptions[0] === 'help') {
       lsresult = `Type 'ls' to check contents of current directory, 'cd' to change directory`;
     }
