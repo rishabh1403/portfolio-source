@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-
+import Directory from './Directory';
+import File from './File';
 export default class extends Component {
 
   renderData(data) {
     let keys = Object.keys(data);
     return keys.reduce((acc, el) => {
-      return [...acc, { [el]: data[el] }]
+      return [...acc, [el, data[el]]]
     }, []).map(el => {
-      return <span>{Object.keys(el)[0]+ " "}</span>
+      if (el[1].type === 'directory') {
+        return <Directory data={el[0] + " "} />
+      }else{
+        return <File data={el[0] + " "} />
+      }
+
     })
     // console.log(x)
   }
