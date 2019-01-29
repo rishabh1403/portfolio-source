@@ -6,7 +6,7 @@ class Message extends Component {
     console.log(this.props);
     return (
       <div>
-        <span className="shell"><b>$ ></b></span><span>{this.props.command[1]}</span>
+        <span className="shell"><b>{this.props.command[2] + ' '}$ ></b></span><span>{this.props.command[1]}</span>
         {this.props.command[0].type === 'LIST' ? <ListLs data={this.props.command[0]} /> : null}
       </div>
     );

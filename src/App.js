@@ -12,7 +12,8 @@ class App extends Component {
     this.state = {
       command: '',
       commands: [],
-      html: ""
+      html: "",
+      currentPath : traverse.pwd(),
     };
     this.contentEditable = React.createRef();
     // this.state = { html: "<b>Hello <i>World</i></b>" };
@@ -38,11 +39,11 @@ class App extends Component {
     // e.preventDefault();
     const { command, commands } = this.state;
     const commandOptions = command.split(' ');
-    let lsresult = '';
+    let lsresult = [command,traverse.pwd()];
     if (commandOptions[0] === 'ls') {
-      lsresult = [traverse.ls(), command];
+      lsresult = [traverse.ls(), ...lsresult];
     } else if (commandOptions[0] === 'cd') {
-      lsresult = [traverse.cd(commandOptions[1]), command];
+      lsresult = [traverse.cd(commandOptions[1]), ...lsresult];
     } else if (commandOptions[0] === 'help') {
       lsresult = `Type 'ls' to check contents of current directory, 'cd' to change directory`;
     }
@@ -52,6 +53,7 @@ class App extends Component {
     }, () => {
       this.setState({
         command: '',
+        currentPath : traverse.pwd(),
       });
     });
 
@@ -74,7 +76,7 @@ class App extends Component {
         {this.renderCommands()}
         <React.Fragment>
           
-          <span className="shell"><b>$ ></b></span>
+          <span className="shell"><b>{this.state.currentPath + ' '}$ ></b></span>
 
           <ContentEditable
             className="test"
