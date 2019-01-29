@@ -1,10 +1,5 @@
 version: 2 # use CircleCI 2.0
 
-checkout:
-  post:
-    - git submodule sync --recursive
-    - git submodule update --recursive --init
-
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
     working_directory: ~/stuart # directory where steps will run
@@ -31,4 +26,13 @@ jobs: # a collection of steps
       - run: # run tests
           name: test
           command: yarn test
+      - run:
+          name: build
+          command: yarn build
+      - run:
+          name: clear old deployment
+          command: rm -rf deployment/*
+      - run:
+          name: copy deployment
+          command: cp -r build/* deployment
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
