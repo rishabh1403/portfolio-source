@@ -84,7 +84,7 @@ class App extends Component {
     const { commands } = this.state;
     return commands.map((el, index) => {
       // const lsresult = Object.keys(traverse.ls()).toString();
-
+      //cecece
       return <Message key={index.toString()} command={el} />;
     });
   }
