@@ -12,34 +12,46 @@ class App extends Component {
     this.state = {
       command: '',
       commands: [],
-      html: "",
-      currentPath : traverse.pwd(),
+      html: '',
+      currentPath: traverse.pwd(),
     };
+    this.handleChange = this.handleChange.bind(this);
     this.contentEditable = React.createRef();
-    // this.state = { html: "<b>Hello <i>World</i></b>" };
     this.textInput = React.createRef();
   }
+
   componentDidMount() {
     this.contentEditable.current.focus();
     setInterval(() => {
-
       this.contentEditable.current.focus();
-    }, 1000)
-    console.log(this.contentEditable);
+    }, 1000);
   }
-  handleChange = evt => {
-    console.log(evt);
+
+  handleChange(evt) {
     if (/<br>/.test(evt.target.value)) {
-      // console.log("enter press")
-      this.handleClick();
+      this.handleEnterPress();
     }
     this.setState({ command: evt.target.value });
-  };
-  handleClick(e) {
-    // e.preventDefault();
+  }
+
+  handleEnterPress() {
     const { command, commands } = this.state;
     const commandOptions = command.split(' ');
-    let lsresult = [command,traverse.pwd()];
+    let lsresult = [command, traverse.pwd()];
+
+    if (commandOptions[0] === 'clear') {
+      this.setState({
+        commands: [],
+      }, () => {
+        this.setState({
+          command: '',
+          currentPath: traverse.pwd(),
+        });
+      });
+      return null;
+    }
+
+
     if (commandOptions[0] === 'ls') {
       lsresult = [traverse.ls(), ...lsresult];
     } else if (commandOptions[0] === 'cd') {
@@ -53,10 +65,10 @@ class App extends Component {
     }, () => {
       this.setState({
         command: '',
-        currentPath : traverse.pwd(),
+        currentPath: traverse.pwd(),
       });
     });
-
+    return null;
   }
 
   renderCommands() {
@@ -69,13 +81,12 @@ class App extends Component {
   }
 
   render() {
-    // const { command } = this.state;
     return (
       <React.Fragment>
         <WelcomeText />
         {this.renderCommands()}
         <React.Fragment>
-          
+
           <span className="shell"><b>{this.state.currentPath + ' '}$ ></b></span>
 
           <ContentEditable
@@ -88,7 +99,7 @@ class App extends Component {
             onChange={this.handleChange} // handle innerHTML change
             tagName='span' // Use a custom HTML tag (uses a div by default)
           />
-          <div className="cursor"></div>
+          <div className="cursor" />
         </React.Fragment>
       </React.Fragment>
     );
