@@ -7,14 +7,16 @@ import Message from './Message';
 import WelcomeText from './components/WelcomeText';
 
 const traverse = new Traverse();
+
+const getCurrentWorkingDirectory = () => traverse.pwd().data;
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       command: '',
       commands: [],
-      html: '',
-      currentPath: traverse.pwd(),
+      currentPath: getCurrentWorkingDirectory(),
     };
     this.handleChange = this.handleChange.bind(this);
     this.contentEditable = React.createRef();
@@ -38,7 +40,7 @@ class App extends Component {
   handleEnterPress() {
     const { command, commands } = this.state;
     const commandOptions = command.split(' ');
-    let lsresult = [command, traverse.pwd()];
+    let lsresult = [command, getCurrentWorkingDirectory()];
 
     if (commandOptions[0] === 'clear') {
       this.setState({
@@ -46,7 +48,7 @@ class App extends Component {
       }, () => {
         this.setState({
           command: '',
-          currentPath: traverse.pwd(),
+          currentPath: getCurrentWorkingDirectory(),
         });
       });
       return null;
@@ -70,7 +72,7 @@ class App extends Component {
     }, () => {
       this.setState({
         command: '',
-        currentPath: traverse.pwd(),
+        currentPath: getCurrentWorkingDirectory(),
       });
     });
     return null;
