@@ -36,18 +36,18 @@ git commit -m "$msg" > deploycommit.log
 git push origin master > deploypush.log
 
 # Come Back up to the Project Root
-cd ..
+#cd ..
 
 # commit change in main repo about deployment
-echo -e "\033[0;32mPushing all changes updates to GitHub...\033[0m"
-git add .
+#echo -e "\033[0;32mPushing all changes updates to GitHub...\033[0m"
+#git add .
 
-deploymentMsg="deployed portfolio on `date`"
-if [ $# -eq 1 ]
-then deploymentMsg="$1"
-fi
-git commit -m "$deploymentMsg" > pushcommit.log
+#deploymentMsg="deployed portfolio on `date`"
+#if [ $# -eq 1 ]
+#then deploymentMsg="$1"
+#fi
+#git commit -m "$deploymentMsg" > pushcommit.log
 
-git push origin master > pushpush.log
+#git push origin master > pushpush.log
 
 echo -e "\033[0;32mSafe exit from script...\033[0m"
