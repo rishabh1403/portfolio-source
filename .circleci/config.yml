@@ -30,14 +30,17 @@ jobs: # a collection of steps
           name: build
           command: yarn build
       - run:
+          name: clone
+          command: git clone --depth 1 https://${DOCS_GITHUB_TOKEN}@github.com/rishabh1403/portfolio.git
+      - run:
           name: clear old deployment
-          command: rm -rf deployment/*
+          command: rm -rf portfolio/*
       - run:
           name: copy deployment
-          command: cp -vr build/* deployment
+          command: cp -vr build/* portfolio
       - deploy:
           name: Trigger docs deployment
-          working_directory: ~/stuart/deployment
+          working_directory: ~/stuart/portfolio
           command: |
             git add .
             git config credential.helper 'cache --timeout=120'
