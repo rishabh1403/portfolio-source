@@ -23,7 +23,7 @@ body{
   color: rgb(51,255,51);
 
   background-color: black;
-  background-image: url('x.gif');
+  background-image: url('../assets/x.gif');
   /* background-repeat: no-repeat; */
   background-size:cover;
   background-attachment: fixed;

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import './App.css';
+import ContentEditable from 'react-contenteditable';
+
+import './styles/App.css';
 import Traverse from './Traverse';
 import Message from './Message';
-import WelcomeText from './WelcomeText'
-import ContentEditable from 'react-contenteditable'
+import WelcomeText from './components/WelcomeText';
 
 const traverse = new Traverse();
 class App extends Component {
@@ -57,7 +58,11 @@ class App extends Component {
     } else if (commandOptions[0] === 'cd') {
       lsresult = [traverse.cd(commandOptions[1]), ...lsresult];
     } else if (commandOptions[0] === 'help') {
-      lsresult = `Type 'ls' to check contents of current directory, 'cd' to change directory`;
+      lsresult = [{
+        data: 'User Needs Help',
+        success: true,
+        type: 'HELP',
+      }, ...lsresult];
     }
 
     this.setState({

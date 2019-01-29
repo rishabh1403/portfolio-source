@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Directory from './Directory';
-import File from './File';
+import Directory from './components/lsOutput/Directory';
+import File from './components/lsOutput/File';
+
 export default class extends Component {
 
   renderData(data) {
@@ -15,11 +16,9 @@ export default class extends Component {
       }
 
     })
-    // console.log(x)
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
         {this.props.data && this.renderData(this.props.data.data)}

@@ -1,104 +1,104 @@
 class Traverse {
-    constructor() {
-        this.home = {
-            type: 'directory',
-            value: {
-                about: {
-                    type: 'directory',
-                    value: {
-                        info: {
-                            type: 'file',
-                            value: 'Hi i am Stuart',
-                        },
-                    },
-                },
-                contact: {
-                    type: 'directory',
-                    value: {
-                        github: {
-                            type: 'directory',
-                            value: 'gitlink',
-                        },
-                        facebook: {
-                            type: 'file',
-                            value: 'fblink',
-                        },
-                        youtube: {
-                            type: 'file',
-                            value: 'ytlink',
-                        },
-                    },
-                },
-                // work: '',
-                // projects: '',
-                // skills: '',
+  constructor() {
+    this.home = {
+      type: 'directory',
+      value: {
+        about: {
+          type: 'directory',
+          value: {
+            info: {
+              type: 'file',
+              value: 'Hi i am Stuart',
             },
+          },
+        },
+        contact: {
+          type: 'directory',
+          value: {
+            github: {
+              type: 'directory',
+              value: 'gitlink',
+            },
+            facebook: {
+              type: 'file',
+              value: 'fblink',
+            },
+            youtube: {
+              type: 'file',
+              value: 'ytlink',
+            },
+          },
+        },
+        // work: '',
+        // projects: '',
+        // skills: '',
+      },
 
-        };
-        this.prevPath = [];
-        this.path = [];
+    };
+    this.prevPath = [];
+    this.path = [];
+  }
+
+  ls() {
+    console.log(this.path);
+    let ans = this.home;
+    for (let i of this.path) {
+      ans = ans.value[i];
+    }
+    if (ans.type === 'directory') {
+      return {
+        data: ans.value,
+        success: true,
+        type: 'LIST',
+      };
+    } else {
+      return 'Not a directory';
+    }
+  }
+
+  cat() {
+    let ans = this.obj;
+    for (let i of this.path) {
+      ans = ans.value[i];
+    }
+    if (ans.type === 'file') {
+      console.log(ans.value);
+    } else {
+      console.log('cant cat a dir');
     }
 
-    ls() {
-        console.log(this.path);
-        let ans = this.home;
-        for (let i of this.path) {
-            ans = ans.value[i];
-        }
-        if (ans.type === 'directory') {
-            return {
-                data: ans.value,
-                success: true,
-                type: 'LIST',
-            };
-        } else {
-            return 'Not a directory';
-        }
-    }
+  }
 
-    cat() {
-        let ans = this.obj;
-        for (let i of this.path) {
-            ans = ans.value[i];
-        }
-        if (ans.type === 'file') {
-            console.log(ans.value);
-        } else {
-            console.log('cant cat a dir');
-        }
+  pwd() {
+    return '~/' + this.path.join('/');
+  }
 
+  cd(name) {
+    if (name === '..') {
+      this.prevPath = JSON.parse(JSON.stringify(this.path));
+      this.path.pop();
+    } else if (name === '.') {
+      // directory remains unchanged
+    } else if (name === '-') {
+      const temp = JSON.parse(JSON.stringify(this.prevPath));
+      this.prevPath = JSON.parse(JSON.stringify(this.path));
+      this.path = JSON.parse(JSON.stringify(temp));
+    } else {
+      this.prevPath = JSON.parse(JSON.stringify(this.path));
+      name = name.split('/');
+      let ans = [...this.path, ...name];
+      let tempObj = JSON.parse(JSON.stringify(this.home))
+      for (let i of ans) {
+        tempObj = tempObj.value[i];
+      }
+      if (tempObj.type === 'file') {
+        console.log('cant cd to file');
+      } else {
+        this.path = [...this.path, ...name]
+      }
     }
-
-    pwd() {
-        return '~/' + this.path.join('/');
-    }
-
-    cd(name) {
-        if (name === '..') {
-            this.prevPath = JSON.parse(JSON.stringify(this.path));
-            this.path.pop();
-        } else if (name === '.') {
-            // directory remains unchanged
-        } else if (name === '-') {
-            const temp = JSON.parse(JSON.stringify(this.prevPath));
-            this.prevPath = JSON.parse(JSON.stringify(this.path));
-            this.path = JSON.parse(JSON.stringify(temp));
-        } else {
-            this.prevPath = JSON.parse(JSON.stringify(this.path));
-            name = name.split('/');
-            let ans = [...this.path, ...name];
-            let tempObj = JSON.parse(JSON.stringify(this.home))
-            for (let i of ans) {
-                tempObj = tempObj.value[i];
-            }
-            if (tempObj.type === 'file') {
-                console.log('cant cd to file');
-            } else {
-                this.path = [...this.path, ...name]
-            }
-        }
-        return {};
-    }
+    return {};
+  }
 
 }
 
