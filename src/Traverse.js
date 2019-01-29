@@ -63,21 +63,22 @@ class Traverse {
       this.path = JSON.parse(JSON.stringify(temp));
     } else {
       this.prevPath = JSON.parse(JSON.stringify(this.path));
-      name = name.split('/');
-      let ans = [...this.path, ...name];
-      let tempObj = JSON.parse(JSON.stringify(this.home))
+      let newName = name;
+      newName = newName.split('/');
+      const ans = [...this.path, ...newName];
+      let tempObj = JSON.parse(JSON.stringify(this.home));
+      // eslint-disable-next-line
       for (let i of ans) {
         tempObj = tempObj.value[i];
       }
       if (tempObj.type === 'file') {
-        console.log('cant cd to file');
+        // console.log('cant cd to file');
       } else {
-        this.path = [...this.path, ...name]
+        this.path = [...this.path, ...name];
       }
     }
     return {};
   }
-
 }
 
 export default Traverse;

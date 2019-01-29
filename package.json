@@ -17,7 +17,7 @@
     "test:watch": "react-scripts test --watch",
     "test:coverage": "react-scripts test --coverage",
     "eject": "react-scripts eject",
-    "lint": "eslint src/**/*.js src/**/*.jsx"
+    "lint": "eslint src/."
   },
   "eslintConfig": {
     "extends": "react-app"

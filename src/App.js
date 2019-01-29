@@ -57,6 +57,8 @@ class App extends Component {
 
     if (commandOptions[0] === 'ls') {
       lsresult = [traverse.ls(), ...lsresult];
+    } else if (commandOptions[0] === 'pwd') {
+      lsresult = [traverse.pwd(), ...lsresult];
     } else if (commandOptions[0] === 'cd') {
       lsresult = [traverse.cd(commandOptions[1]), ...lsresult];
     } else if (commandOptions[0] === 'help') {

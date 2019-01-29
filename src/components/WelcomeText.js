@@ -14,6 +14,4 @@ const WelcomeText = () => (
   </React.Fragment>
 );
 
-
 export default WelcomeText;
-

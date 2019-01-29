@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import ListLs from './ListLs';
 import Help from './components/Help';
+import Pwd from './components/Pwd';
 
-class Message extends Component {
+class Message extends PureComponent {
   // eslint-disable-next-line class-methods-use-this
   renderCommandOutput(type, data) {
     if (type === 'LIST') {
@@ -10,6 +11,9 @@ class Message extends Component {
     }
     if (type === 'HELP') {
       return <Help />;
+    }
+    if (type === 'PWD') {
+      return <Pwd data={data.data} />;
     }
     return null;
   }
