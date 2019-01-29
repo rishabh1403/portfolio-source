@@ -74,7 +74,7 @@ class Traverse {
       if (tempObj.type === 'file') {
         // console.log('cant cd to file');
       } else {
-        this.path = [...this.path, ...name];
+        this.path = [...this.path, ...newName];
       }
     }
     return {};
