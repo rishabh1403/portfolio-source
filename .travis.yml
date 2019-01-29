@@ -8,3 +8,5 @@ script:
   - yarn test
 on:
   branch: master
+git:
+  submodules: false
