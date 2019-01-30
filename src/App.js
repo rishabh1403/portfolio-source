@@ -29,6 +29,7 @@ class App extends Component {
     setInterval(() => {
       this.contentEditable.current.focus();
     }, 100);
+    // eslint-disable-next-line
     console.log("%cNitin Stop Looking At my console for errors, now you won't find any", 'background: black; color: green; font-size: x-large');
   }
 
