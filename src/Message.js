@@ -38,7 +38,7 @@ class Message extends PureComponent {
 }
 
 Message.propTypes = {
-  command: PropTypes.shape().isRequired,
+  command: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default Message;
