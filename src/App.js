@@ -44,21 +44,35 @@ class App extends Component {
   }
 
   handleKeyDown(e) {
+    // let that = this;
     // console.log("key dowm")
     // console.log(e);
     // console.log(e.target.innerText);
     const { commands } = this.state;
+    if (e.keyCode === 9) {
+      e.preventDefault();
+      // this.handleEnterPress();
+    }
     if (e.keyCode === 13) {
       e.preventDefault();
       this.handleEnterPress();
     }
     if (e.keyCode === 38) {
+      e.preventDefault();
       index += 1;
       if (commands.length - index >= 0) {
         // console.log(this.state.commands[this.state.commands.length - index][1])
         this.setState(({ commands: c }) => ({
           command: c[c.length - index][1].trim(),
-        }));
+        }), () => {
+          const el = document.getElementById('yup');
+          const range = document.createRange();
+          const sel = window.getSelection();
+          range.setStart(el.childNodes[0], el.childNodes[0].length);
+          range.collapse(true);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        });
       }
     }
     // else {
@@ -145,6 +159,7 @@ class App extends Component {
 
           <ContentEditable
             className="test"
+            id="yup"
             tabIndex="0"
             autoCorrect="off"
             autoCapitalize="none"
