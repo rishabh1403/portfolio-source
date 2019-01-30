@@ -46,8 +46,8 @@ deploymentMsg="update portfolio on `date`"
 if [ $# -eq 1 ]
 then deploymentMsg="$1"
 fi
-git commit -m "$deploymentMsg" > pushcommit.log
+git commit -m "$deploymentMsg"
 
-git push origin master > pushpush.log
+git push origin master
 
 echo -e "\033[0;32mSafe exit from script...\033[0m"
