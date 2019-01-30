@@ -27,7 +27,7 @@ class App extends Component {
     this.contentEditable.current.focus();
     setInterval(() => {
       this.contentEditable.current.focus();
-    }, 1000);
+    }, 100);
   }
 
   handleChange(evt) {
@@ -67,6 +67,8 @@ class App extends Component {
         success: true,
         type: 'HELP',
       }, ...lsresult];
+    } else if (commandOptions[0] === 'cat') {
+      lsresult = [traverse.cat(commandOptions[1]), ...lsresult];
     }
 
     this.setState({

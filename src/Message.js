@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import ListLs from './ListLs';
 import Help from './components/Help';
 import Pwd from './components/Pwd';
+import Error from './Error';
 
-const renderCommandOutput = (type, data) => {
+const renderCommandOutput = (success, type, data) => {
+  if (!success) {
+    return <Error data={data} />;
+  }
   if (type === 'LIST') {
     return <ListLs data={data} />;
   }
@@ -31,7 +35,7 @@ class Message extends PureComponent {
         <span>
           {command[1]}
         </span>
-        {renderCommandOutput(command[0].type, command[0])}
+        {renderCommandOutput(command[0].success, command[0].type, command[0])}
       </div>
     );
   }
