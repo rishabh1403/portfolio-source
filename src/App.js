@@ -82,31 +82,33 @@ class App extends Component {
 
   renderCommands() {
     const { commands } = this.state;
-    return commands.map((el, index) => {
-      // const lsresult = Object.keys(traverse.ls()).toString();
-      //cecece
-      return <Message key={index.toString()} command={el} />;
-    });
+    return commands.map((el, index) => <Message key={index.toString()} command={el} />);
   }
 
   render() {
+    const { currentPath, command } = this.state;
     return (
       <React.Fragment>
         <WelcomeText />
         {this.renderCommands()}
         <React.Fragment>
 
-          <span className="shell"><b>{this.state.currentPath + ' '}$ ></b></span>
+          <span className="shell">
+            <b>
+              {`${currentPath} `}
+              $ &gt;
+            </b>
+          </span>
 
           <ContentEditable
             className="test"
             autoCorrect="off"
             autoCapitalize="none"
             innerRef={this.contentEditable}
-            html={this.state.command} // innerHTML of the editable div
-            disabled={false}       // use true to disable editing
+            html={command} // innerHTML of the editable div
+            disabled={false} // use true to disable editing
             onChange={this.handleChange} // handle innerHTML change
-            tagName='span' // Use a custom HTML tag (uses a div by default)
+            tagName="span" // Use a custom HTML tag (uses a div by default)
           />
           <div className="cursor" />
         </React.Fragment>

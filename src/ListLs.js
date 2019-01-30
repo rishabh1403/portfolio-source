@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import Directory from './components/lsOutput/Directory';
 import File from './components/lsOutput/File';
 
-export default class extends Component {
+const renderData = (data) => {
+  const keys = Object.keys(data);
+  return keys.reduce((acc, el) => [...acc, [el, data[el]]], []).map((el) => {
+    if (el[1].type === 'directory') {
+      return <Directory key={el[0]} data={`${el[0]} `} />;
+    }
+    return <File key={el[0]} data={`${el[0]} `} />;
+  });
+};
 
-  renderData(data) {
-    let keys = Object.keys(data);
-    return keys.reduce((acc, el) => {
-      return [...acc, [el, data[el]]]
-    }, []).map(el => {
-      if (el[1].type === 'directory') {
-        return <Directory data={el[0] + " "} />
-      }else{
-        return <File data={el[0] + " "} />
-      }
-
-    })
-  }
-
+export default class ListLs extends PureComponent {
   render() {
+    const { data } = this.props;
     return (
       <div>
-        {this.props.data && this.renderData(this.props.data.data)}
+        {data && renderData(data.data)}
       </div>
     );
   }
 }
+ListLs.propTypes = {
+  data: PropTypes.shape().isRequired,
+};

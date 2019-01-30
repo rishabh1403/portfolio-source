@@ -11,33 +11,33 @@ jobs: # a collection of steps
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: install-npm-wee
+          name: install dependencies
           command: yarn
       - save_cache: # special step to save the dependency cache
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-#      - run: # run tests
-#          name: lint
-#          command: yarn lint
       - run: # run tests
-          name: test
+          name: check for linting
+          command: yarn lint
+      - run: # run tests
+          name: run tests
           command: yarn test
       - run:
-          name: build
+          name: build for deployment
           command: yarn build
       - run:
-          name: clone
+          name: clone the deployment repo
           working_directory: ~/stuart
           command: git clone --depth 1 https://${DOCS_GITHUB_TOKEN}@github.com/rishabh1403/portfolio.git
       - run:
-          name: clear old deployment
+          name: clear old deployment files
           command: rm -rf portfolio/*
       - run:
-          name: copy deployment
+          name: copy new build
           command: cp -vr build/* portfolio
       - deploy:
-          name: Trigger docs deployment
+          name: Deploy new build
           working_directory: ~/stuart/portfolio
           command: |
             git add .
