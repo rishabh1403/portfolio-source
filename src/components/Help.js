@@ -13,8 +13,14 @@ const Help = () => (
     </div>
     <div>
       <span>
-        <code>cd &gt;directory name&lt;</code>
+        <code>cd &lt;directory name&gt;</code>
         <span>- to change directory</span>
+      </span>
+    </div>
+    <div>
+      <span>
+        <code>clear</code>
+        <span>- to clear your console</span>
       </span>
     </div>
   </div>
