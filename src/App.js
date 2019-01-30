@@ -29,6 +29,7 @@ class App extends Component {
     setInterval(() => {
       this.contentEditable.current.focus();
     }, 100);
+    console.log("%cNitin Stop Looking At my console for errors, now you won't find any", 'background: black; color: green; font-size: x-large');
   }
 
   handleChange(evt) {
@@ -143,6 +144,7 @@ class App extends Component {
 
           <ContentEditable
             className="test"
+            tabIndex="0"
             autoCorrect="off"
             autoCapitalize="none"
             innerRef={this.contentEditable}
