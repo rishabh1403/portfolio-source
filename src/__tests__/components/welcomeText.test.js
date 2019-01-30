@@ -5,6 +5,6 @@ import WelcomeText from '../../components/WelcomeText';
 describe('<WelcomeText />', () => {
   it('should render one help comand', () => {
     const wrapper = shallow(<WelcomeText />);
-    expect(wrapper.find('code').length).toBe(1);
+    expect(wrapper.find('code').length).toBe(0);
   });
 });
