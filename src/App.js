@@ -48,9 +48,25 @@ class App extends Component {
     // console.log("key dowm")
     // console.log(e);
     // console.log(e.target.innerText);
-    const { commands } = this.state;
+    const { command, commands } = this.state;
     if (e.keyCode === 9) {
       e.preventDefault();
+      const commandOptions = command.split(' ');
+      const name = traverse.getRecommendation(commandOptions[1]);
+      // console.log(name);
+      if (name.length > 0) {
+        this.setState(({ command: c }) => ({
+          command: `${c.split(' ')[0]} ${name}`,
+        }), () => {
+          const el = document.getElementById('yup');
+          const range = document.createRange();
+          const sel = window.getSelection();
+          range.setStart(el.childNodes[0], el.childNodes[0].length);
+          range.collapse(true);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        });
+      }
       // this.handleEnterPress();
     }
     if (e.keyCode === 13) {

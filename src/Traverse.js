@@ -28,6 +28,17 @@ class Traverse {
     };
   }
 
+  getRecommendation(name){
+    let tempObj = JSON.parse(JSON.stringify(this.home));
+    for(let i of this.path){
+      tempObj = tempObj.value[i];
+    }
+    if(typeof tempObj.value === 'object'){
+      return Object.keys(tempObj.value).filter(el => el.startsWith(name));
+    }
+    return [];
+    
+  }
   cat(name) {
     if (!name) {
       return {
