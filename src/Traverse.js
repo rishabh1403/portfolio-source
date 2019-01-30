@@ -28,21 +28,44 @@ class Traverse {
     };
   }
 
-  cat() {
-    const ans = getNodeAtPath(this.path);
-    if (ans.type === 'file') {
+  cat(name) {
+    if (!name) {
       return {
-        data: ans.value,
-        success: true,
+        data: this.pwd().data,
+        code: 'PATH_REQUIRED',
+        success: false,
         type: 'CAT',
       };
     }
+    let newName = name.split('/');
+    let newPath = [...this.path, ...newName];
+    let tempObj = JSON.parse(JSON.stringify(this.home));
+    for (let i of newPath) {
+      tempObj = tempObj.value[i];
+      if (!tempObj) {
+        return {
+          data: name,
+          code: 'INVALID_PATH',
+          success: false,
+          type: 'CAT',
+        };
+      }
+    }
+    if (tempObj.type === 'directory') {
+      return {
+        data: name,
+        code: 'NOT_A_FILE',
+        success: false,
+        type: 'CAT',
+      };
+    }
+    console.log(tempObj);
     return {
-      data: this.pwd().data,
-      code: 'NOT_A_FILE',
-      success: false,
+      data: tempObj.value,
+      success: true,
       type: 'CAT',
     };
+
   }
 
   pwd() {
