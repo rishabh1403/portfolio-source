@@ -35,6 +35,9 @@ body{
 .file-name{
   color: blueviolet;
 }
+.link-name{
+  color: rgb(76, 197, 137);
+}
 .error-msg{
   color: red;
 }

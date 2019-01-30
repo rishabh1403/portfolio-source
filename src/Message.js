@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ListLs from './ListLs';
 import Help from './components/Help';
 import Pwd from './components/Pwd';
+import Cat from './components/Cat';
 import Error from './Error';
 
 const renderCommandOutput = (success, type, data) => {
@@ -17,6 +18,9 @@ const renderCommandOutput = (success, type, data) => {
   }
   if (type === 'PWD') {
     return <Pwd data={data.data} />;
+  }
+  if (type === 'CAT') {
+    return <Cat data={data.data} />;
   }
   return null;
 };

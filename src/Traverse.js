@@ -59,7 +59,7 @@ class Traverse {
         type: 'CAT',
       };
     }
-    console.log(tempObj);
+    // console.log(tempObj);
     return {
       data: tempObj.value,
       success: true,
@@ -100,7 +100,7 @@ class Traverse {
     }
 
     const cdPath = name.split('/');
-    console.log(cdPath);
+    // console.log(cdPath);
     let ans = [];
     if (cdPath[cdPath.length - 1] && cdPath[cdPath.length - 1].length > 0) {
       ans = [...this.path, ...cdPath];
@@ -108,7 +108,7 @@ class Traverse {
       cdPath.pop();
       ans = [...this.path, ...cdPath];
     }
-    console.log(ans);
+    // console.log(ans);
     let tempObj = JSON.parse(JSON.stringify(this.home));
     let prevObj = [];
     // eslint-disable-next-line

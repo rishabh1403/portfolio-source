@@ -4,26 +4,36 @@ const obj = {
     about: {
       type: 'directory',
       value: {
-        info: {
+        'info.txt': {
           type: 'file',
-          value: 'Hi i am Stuart',
+          value: `Hey there hacker, I am Rishabh, a software engineer from India.
+                   I am mostly passionate about web technologies, linux and everthing opensource`,
         },
       },
     },
     contact: {
       type: 'directory',
       value: {
-        github: {
-          type: 'directory',
-          value: 'gitlink',
+        blog: {
+          type: 'link',
+          value: 'https://rishabh1403.com/',
         },
-        facebook: {
-          type: 'file',
-          value: 'fblink',
+        email: {
+          type: 'link',
+          email: true,
+          value: 'contact@rishabh1403.com',
+        },
+        github: {
+          type: 'link',
+          value: 'https://github.com/rishabh1403/',
+        },
+        twitter: {
+          type: 'link',
+          value: 'https://twitter.com/rishabhjain1403',
         },
         youtube: {
-          type: 'file',
-          value: 'ytlink',
+          type: 'link',
+          value: 'https://www.youtube.com/rishabh1403',
         },
       },
     },

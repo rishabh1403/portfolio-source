@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Directory from './components/lsOutput/Directory';
 import File from './components/lsOutput/File';
+import OuterLinks from './components/lsOutput/OuterLinks';
 
 const renderData = (data) => {
   const keys = Object.keys(data);
@@ -9,7 +10,10 @@ const renderData = (data) => {
     if (el[1].type === 'directory') {
       return <Directory key={el[0]} data={`${el[0]} `} />;
     }
-    return <File key={el[0]} data={`${el[0]} `} />;
+    if (el[1].type === 'file') {
+      return <File key={el[0]} data={`${el[0]} `} />;
+    }
+    return <OuterLinks key={el[0]} data={`${el[0]} `} contents={el[1]} />;
   });
 };
 
