@@ -7,7 +7,7 @@ import Message from './Message';
 import WelcomeText from './components/WelcomeText';
 
 const traverse = new Traverse();
-
+let index = 0;
 const getCurrentWorkingDirectory = () => traverse.pwd().data;
 
 class App extends Component {
@@ -19,6 +19,7 @@ class App extends Component {
       currentPath: getCurrentWorkingDirectory(),
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.contentEditable = React.createRef();
     this.textInput = React.createRef();
   }
@@ -31,16 +32,54 @@ class App extends Component {
   }
 
   handleChange(evt) {
-    if (/<br>/.test(evt.target.value)) {
-      this.handleEnterPress();
-    }
+    // console.log("key change")
+    // if (/<br>/.test(evt.target.value)) {
+    //   console.log("enter is press");
+    //   this.handleEnterPress();
+    // }
+    // console.log("enter is not press");
     this.setState({ command: evt.target.value });
   }
 
+  handleKeyDown(e) {
+    // console.log("key dowm")
+    // console.log(e);
+    // console.log(e.target.innerText);
+    const { commands } = this.state;
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.handleEnterPress();
+    }
+    if (e.keyCode === 38) {
+      index += 1;
+      if (commands.length - index >= 0) {
+        // console.log(this.state.commands[this.state.commands.length - index][1])
+        this.setState(({ commands: c }) => ({
+          command: c[c.length - index][1].trim(),
+        }));
+      }
+    }
+    // else {
+    //   this.setState({ command: e.target.textContent });
+    // }
+  }
+
   handleEnterPress() {
+    index = 0;
     const { command, commands } = this.state;
     const commandOptions = command.split(' ');
     let lsresult = [command, getCurrentWorkingDirectory()];
+    if (!commandOptions[0]) {
+      this.setState({
+        commands: [...commands, [{}, ...lsresult]],
+      }, () => {
+        this.setState({
+          command: '',
+          currentPath: getCurrentWorkingDirectory(),
+        });
+      });
+      return null;
+    }
 
     if (commandOptions[0] === 'clear') {
       this.setState({
@@ -84,7 +123,7 @@ class App extends Component {
 
   renderCommands() {
     const { commands } = this.state;
-    return commands.map((el, index) => <Message key={index.toString()} command={el} />);
+    return commands.map((el, idx) => <Message key={idx.toString()} command={el} />);
   }
 
   render() {
@@ -110,6 +149,7 @@ class App extends Component {
             html={command} // innerHTML of the editable div
             disabled={false} // use true to disable editing
             onChange={this.handleChange} // handle innerHTML change
+            onKeyDown={this.handleKeyDown}
             tagName="span" // Use a custom HTML tag (uses a div by default)
           />
           <div className="cursor" />
