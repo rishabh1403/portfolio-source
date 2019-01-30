@@ -8,3 +8,6 @@ describe('<WelcomeText />', () => {
     expect(wrapper.find('code').length).toBe(1);
   });
 });
+
+
+
