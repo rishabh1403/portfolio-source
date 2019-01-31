@@ -2,9 +2,9 @@ version: 2 # use CircleCI 2.0
 
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
-    filters:
-      branches:
-        only: master
+    branches:
+      only:
+        - master
     working_directory: ~/stuart # directory where steps will run
     docker: # run the steps with Docker
       - image: circleci/node:9.10.0 # ...with this image as the primary container; this is where all `steps` will run
