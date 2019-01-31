@@ -133,11 +133,16 @@ class App extends Component {
 
 
     if (commandOptions[0] === 'ls') {
-      lsresult = [comm.ls(this.state.path, this.state.home), ...lsresult];
+      lsresult = [comm.ls(this.state.path, this.state.home, commandOptions[1]), ...lsresult];
     } else if (commandOptions[0] === 'pwd') {
       lsresult = [comm.pwd(this.state.path), ...lsresult];
     } else if (commandOptions[0] === 'cd') {
-      lsresult = [comm.cd(commandOptions[1]), ...lsresult];
+      const cdResult = comm.cd(commandOptions[1], this.state.path, this.state.prevPath, this.state.home);
+      lsresult = [cdResult, ...lsresult];
+      this.setState({
+        path: cdResult.path,
+        prevPath: cdResult.prevPath,
+      });
     } else if (commandOptions[0] === 'help') {
       lsresult = [comm.help(), ...lsresult];
     } else if (commandOptions[0] === 'cat') {
