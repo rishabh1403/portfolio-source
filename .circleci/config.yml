@@ -37,6 +37,9 @@ jobs: # a collection of steps
           name: copy new build
           command: cp -vr build/* portfolio
       - deploy:
+          filters:
+            branches:
+              only: master
           name: Deploy new build
           working_directory: ~/stuart/portfolio
           command: |
