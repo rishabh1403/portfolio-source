@@ -1,7 +1,7 @@
 import { cat } from '../../Traverse';
 import obj from '../../util/data';
 
-describe('Testing `cat`', () => {
+describe('Testing `cat` command', () => {
   let path = [];
   let arg = '~';
   const data = obj;

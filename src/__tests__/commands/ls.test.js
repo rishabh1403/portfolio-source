@@ -1,7 +1,7 @@
 import { ls } from '../../Traverse';
 import obj from '../../util/data';
 
-describe('Testing `ls`', () => {
+describe('Testing `ls` command', () => {
   let path = [];
   let arg = '~';
   const data = obj;
