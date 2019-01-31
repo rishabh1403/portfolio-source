@@ -19,6 +19,18 @@ const Help = () => (
     </div>
     <div>
       <span>
+        <code>cat &lt;file name&gt;</code>
+        <span>- to view contents of file</span>
+      </span>
+    </div>
+    <div>
+      <span>
+        <code>pwd</code>
+        <span>- to see current working directory</span>
+      </span>
+    </div>
+    <div>
+      <span>
         <code>clear</code>
         <span>- to clear your console</span>
       </span>
