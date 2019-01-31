@@ -2,6 +2,9 @@ version: 2 # use CircleCI 2.0
 
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
+    branches:
+      only:
+        - master
     working_directory: ~/stuart # directory where steps will run
     docker: # run the steps with Docker
       - image: circleci/node:9.10.0 # ...with this image as the primary container; this is where all `steps` will run
@@ -46,5 +49,3 @@ jobs: # a collection of steps
             git config user.name "Rishabh Jain"
             git commit --allow-empty -m "Deployed From Circle CI on `date`"
             git push -q https://${DEPLOY_KEY}@github.com/rishabh1403/portfolio.git master
-            # Push quietly to prevent showing the token in log
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
