@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-const getNodeAtPath = (path, obj) => path.reduce((acc, el) => obj.value[el], obj);
+const getNodeAtPath = (path, obj) => path.reduce((acc, el) => acc.value[el], obj);
 
 const checkRecursivelyForDirectoryBeforeLastNode = (path, obj) => {
   let { ...tempObj } = obj;
@@ -31,7 +31,7 @@ export const ls = (path, data, option) => {
           yes get node and display
           no throw error
 */
-console.log(option);
+  console.log(option);
   if (option && option.length > 0) {
     const tempPath = option.split('/');
     if (tempPath[tempPath.length - 1].length === 0) {
@@ -47,7 +47,7 @@ console.log(option);
     console.log(absolutePath);
     if (checkRecursivelyForDirectoryBeforeLastNode(absolutePath, data)) {
       const ans = getNodeAtPath(absolutePath, data);
-      if(!ans){
+      if (!ans) {
         return {
           data: pwd(absolutePath).data,
           code: 'INVALID_PATH',
@@ -123,8 +123,69 @@ export const getRecommendation = (name, data, path) => {
   return [];
 }
 
-export const cat = (name, path, data) => {
-  if (!name) {
+export const cat = (path, data, option) => {
+
+  /*
+  if options length <= 0
+     error . cat require a mouse to eat [ an argument to display results]
+   if option has length
+     split option by /
+     if last value is "" , pop it [ handle trailing slash]
+     if it starts with "" or ~ [ user wanted absolute url]
+         it becomes absolute url
+       else
+           push it to path
+       checkifallaredirectoryin path
+         yes get node and display
+         no throw error
+*/
+  if (option && option.length > 0) {
+    const tempPath = option.split('/');
+    if (tempPath[tempPath.length - 1].length === 0) {
+      tempPath.pop(); //handle trailing slash
+    }
+    let absolutePath = [];
+    if (tempPath[0] === '~' || tempPath[0].length === 0) {
+      absolutePath = [...tempPath];
+      absolutePath.shift();
+    } else {
+      absolutePath = [...path, ...tempPath];
+    }
+
+    if (checkRecursivelyForDirectoryBeforeLastNode(absolutePath, data)) {
+      console.log(absolutePath);
+      const ans = getNodeAtPath(absolutePath, data);
+      console.log(ans);
+      if (!ans) {
+        return {
+          data: pwd(absolutePath).data,
+          code: 'INVALID_PATH',
+          success: false,
+          type: 'CAT',
+        };
+      }
+      if (ans.type !== 'directory') {
+        return {
+          data: ans.value,
+          success: true,
+          type: 'CAT',
+        };
+      }
+      return {
+        data: pwd(absolutePath).data,
+        code: 'IS_DIRECTORY',
+        success: false,
+        type: 'CAT',
+      };
+    } else {
+      return {
+        data: pwd(path).data,
+        code: 'INVALID_PATH',
+        success: false,
+        type: 'CAT',
+      };
+    }
+  } else {
     return {
       data: pwd(path).data,
       code: 'PATH_REQUIRED',
@@ -132,35 +193,86 @@ export const cat = (name, path, data) => {
       type: 'CAT',
     };
   }
-  let newName = name.split('/');
-  let newPath = [...path, ...newName];
-  let tempObj = JSON.parse(JSON.stringify(data));
-  for (let i of newPath) {
-    tempObj = tempObj.value[i];
-    if (!tempObj) {
+
+
+
+  //////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*
+  
+  
+    if (!name) {
       return {
-        data: name,
-        code: 'INVALID_PATH',
+        data: pwd(path).data,
+        code: 'PATH_REQUIRED',
         success: false,
         type: 'CAT',
       };
     }
-  }
-  if (tempObj.type === 'directory') {
+    let newName = name.split('/');
+    let newPath = [...path, ...newName];
+    let tempObj = JSON.parse(JSON.stringify(data));
+    for (let i of newPath) {
+      tempObj = tempObj.value[i];
+      if (!tempObj) {
+        return {
+          data: name,
+          code: 'INVALID_PATH',
+          success: false,
+          type: 'CAT',
+        };
+      }
+    }
+    if (tempObj.type === 'directory') {
+      return {
+        data: name,
+        code: 'NOT_A_FILE',
+        success: false,
+        type: 'CAT',
+      };
+    }
+    // console.log(tempObj);
     return {
-      data: name,
-      code: 'NOT_A_FILE',
-      success: false,
+      data: tempObj.value,
+      success: true,
       type: 'CAT',
     };
-  }
-  // console.log(tempObj);
-  return {
-    data: tempObj.value,
-    success: true,
-    type: 'CAT',
-  };
-
+  */
 }
 
 export const cd = (name, path, prevPath, data) => {

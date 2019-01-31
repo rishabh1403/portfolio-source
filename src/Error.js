@@ -29,7 +29,7 @@ const Error = ({ data }) => {
     }
   }
   if (data.type === 'CAT') {
-    if (data.code === 'NOT_A_FILE') {
+    if (data.code === 'IS_DIRECTORY') {
       return (
         <div className="error-msg">
           <code>
@@ -62,7 +62,7 @@ const Error = ({ data }) => {
           <code>
             {data.data}
           </code>
-          is an invalid file path
+          is an invalid path
         </div>
       );
     }
