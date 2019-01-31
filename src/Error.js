@@ -17,6 +17,16 @@ const Error = ({ data }) => {
         </div>
       );
     }
+    if (data.code === 'INVALID_PATH') {
+      return (
+        <div className="error-msg">
+          <code>
+            {data.data}
+          </code>
+          :- is not a valid path for a directory
+        </div>
+      );
+    }
   }
   if (data.type === 'CAT') {
     if (data.code === 'NOT_A_FILE') {

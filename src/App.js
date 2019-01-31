@@ -7,6 +7,7 @@ import Message from './Message';
 import WelcomeText from './components/WelcomeText';
 import obj from './util/data';
 
+const sanitizeInput = input => input.replace("&nbsp;", "").trim().split(' ').map(el => el.replace('&nbsp;', ''));
 
 // console.log(comm['ls']([], obj));
 // const traverse = new Traverse();
@@ -105,8 +106,8 @@ class App extends Component {
   handleEnterPress() {
     index = 0;
     const { command, commands } = this.state;
-    const commandOptions = command.split(' ');
-    let lsresult = [command, comm.pwd(this.state.path).data];
+    const commandOptions = sanitizeInput(command);
+    let lsresult = [sanitizeInput(command).join(' '), comm.pwd(this.state.path).data];
     if (!commandOptions[0]) {
       this.setState({
         commands: [...commands, [{}, ...lsresult]],
