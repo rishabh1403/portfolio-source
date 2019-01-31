@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 const getNodeAtPath = (path, obj) => path.reduce((acc, el) => acc.value[el], obj);
 
 const checkRecursivelyForDirectoryBeforeLastNode = (path, obj) => {
@@ -31,7 +30,7 @@ export const ls = (path, data, option) => {
           yes get node and display
           no throw error
 */
-  console.log(option);
+  // console.log(option);
   if (option && option.length > 0) {
     const tempPath = option.split('/');
     if (tempPath[tempPath.length - 1].length === 0) {
@@ -44,7 +43,7 @@ export const ls = (path, data, option) => {
     } else {
       absolutePath = [...path, ...tempPath];
     }
-    console.log(absolutePath);
+    // console.log(absolutePath);
     if (checkRecursivelyForDirectoryBeforeLastNode(absolutePath, data)) {
       const ans = getNodeAtPath(absolutePath, data);
       if (!ans) {
@@ -153,9 +152,9 @@ export const cat = (path, data, option) => {
     }
 
     if (checkRecursivelyForDirectoryBeforeLastNode(absolutePath, data)) {
-      console.log(absolutePath);
+      // console.log(absolutePath);
       const ans = getNodeAtPath(absolutePath, data);
-      console.log(ans);
+      // console.log(ans);
       if (!ans) {
         return {
           data: pwd(absolutePath).data,
@@ -193,86 +192,6 @@ export const cat = (path, data, option) => {
       type: 'CAT',
     };
   }
-
-
-
-  //////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
-  
-  
-    if (!name) {
-      return {
-        data: pwd(path).data,
-        code: 'PATH_REQUIRED',
-        success: false,
-        type: 'CAT',
-      };
-    }
-    let newName = name.split('/');
-    let newPath = [...path, ...newName];
-    let tempObj = JSON.parse(JSON.stringify(data));
-    for (let i of newPath) {
-      tempObj = tempObj.value[i];
-      if (!tempObj) {
-        return {
-          data: name,
-          code: 'INVALID_PATH',
-          success: false,
-          type: 'CAT',
-        };
-      }
-    }
-    if (tempObj.type === 'directory') {
-      return {
-        data: name,
-        code: 'NOT_A_FILE',
-        success: false,
-        type: 'CAT',
-      };
-    }
-    // console.log(tempObj);
-    return {
-      data: tempObj.value,
-      success: true,
-      type: 'CAT',
-    };
-  */
 }
 
 export const cd = (name, path, prevPath, data) => {
@@ -398,3 +317,4 @@ export const cd = (name, path, prevPath, data) => {
 
 
 }
+
