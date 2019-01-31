@@ -39,15 +39,17 @@ jobs: # a collection of steps
       - deploy:
           filters:
             branches:
-              only: master
+            only: master
           name: Deploy new build
           working_directory: ~/stuart/portfolio
           command: |
-            git add .
-            git config credential.helper 'cache --timeout=120'
-            git config user.email "mailrishabh1403@gmail.com"
-            git config user.name "Rishabh Jain"
-            git commit --allow-empty -m "Deployed From Circle CI on `date`"
-            git push -q https://${DEPLOY_KEY}@github.com/rishabh1403/portfolio.git master
+            if [ "${CIRCLE_BRANCH}" == "master" ];
+              git add .
+              git config credential.helper 'cache --timeout=120'
+              git config user.email "mailrishabh1403@gmail.com"
+              git config user.name "Rishabh Jain"
+              git commit --allow-empty -m "Deployed From Circle CI on `date`"
+              git push -q https://${DEPLOY_KEY}@github.com/rishabh1403/portfolio.git master
+            fi
             # Push quietly to prevent showing the token in log
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
