@@ -28,6 +28,14 @@ export const pwd = (path) => {
   };
 }
 
+export const help = () => {
+  return {
+    data: 'User Needs Help',
+    success: true,
+    type: 'HELP',
+  };
+}
+
 export const getRecommendation = (name, data, path) => {
   let tempObj = JSON.parse(JSON.stringify(data));
   for (let i of path) {

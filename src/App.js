@@ -135,17 +135,13 @@ class App extends Component {
     if (commandOptions[0] === 'ls') {
       lsresult = [comm.ls(this.state.path, this.state.home), ...lsresult];
     } else if (commandOptions[0] === 'pwd') {
-      lsresult = [comm.pwd(), ...lsresult];
+      lsresult = [comm.pwd(this.state.path), ...lsresult];
     } else if (commandOptions[0] === 'cd') {
       lsresult = [comm.cd(commandOptions[1]), ...lsresult];
     } else if (commandOptions[0] === 'help') {
-      lsresult = [{
-        data: 'User Needs Help',
-        success: true,
-        type: 'HELP',
-      }, ...lsresult];
+      lsresult = [comm.help(), ...lsresult];
     } else if (commandOptions[0] === 'cat') {
-      lsresult = [comm.cat(commandOptions[1]), ...lsresult];
+      lsresult = [comm.cat(commandOptions[1], this.state.path, this.state.home), ...lsresult];
     }
 
     this.setState({
