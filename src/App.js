@@ -100,9 +100,6 @@ class App extends Component {
         });
       }
     }
-    // else {
-    //   this.setState({ command: e.target.textContent });
-    // }
   }
 
   handleEnterPress() {
@@ -149,7 +146,7 @@ class App extends Component {
     } else if (commandOptions[0] === 'help') {
       lsresult = [comm.help(), ...lsresult];
     } else if (commandOptions[0] === 'cat') {
-      lsresult = [comm.cat(commandOptions[1], this.state.path, this.state.home), ...lsresult];
+      lsresult = [comm.cat(this.state.path, this.state.home, commandOptions[1]), ...lsresult];
     }
 
     this.setState({
