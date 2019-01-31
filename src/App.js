@@ -2,21 +2,27 @@ import React, { Component } from 'react';
 import ContentEditable from 'react-contenteditable';
 
 import './styles/App.css';
-import Traverse from './Traverse';
+import * as comm from './Traverse';
 import Message from './Message';
 import WelcomeText from './components/WelcomeText';
+import obj from './util/data';
 
-const traverse = new Traverse();
+
+// console.log(comm['ls']([], obj));
+// const traverse = new Traverse();
 let index = 0;
-const getCurrentWorkingDirectory = () => traverse.pwd().data;
+// const getCurrentWorkingDirectory = () => traverse.pwd().data;
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       command: '',
+      home: obj,
+      path: [],
+      prevPath: [],
       commands: [],
-      currentPath: getCurrentWorkingDirectory(),
+      currentPath: comm.pwd([]).data,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -52,7 +58,7 @@ class App extends Component {
     if (e.keyCode === 9) {
       e.preventDefault();
       const commandOptions = command.split(' ');
-      const name = traverse.getRecommendation(commandOptions[1]);
+      const name = comm.getRecommendation(commandOptions[1], this.state.home, this.state.path);
       // console.log(name);
       if (name.length > 0) {
         this.setState(({ command: c }) => ({
@@ -100,14 +106,14 @@ class App extends Component {
     index = 0;
     const { command, commands } = this.state;
     const commandOptions = command.split(' ');
-    let lsresult = [command, getCurrentWorkingDirectory()];
+    let lsresult = [command, comm.pwd(this.state.path).data];
     if (!commandOptions[0]) {
       this.setState({
         commands: [...commands, [{}, ...lsresult]],
       }, () => {
         this.setState({
           command: '',
-          currentPath: getCurrentWorkingDirectory(),
+          currentPath: comm.pwd(this.state.path).data,
         });
       });
       return null;
@@ -119,7 +125,7 @@ class App extends Component {
       }, () => {
         this.setState({
           command: '',
-          currentPath: getCurrentWorkingDirectory(),
+          currentPath: comm.pwd(this.state.path).data,
         });
       });
       return null;
@@ -127,11 +133,11 @@ class App extends Component {
 
 
     if (commandOptions[0] === 'ls') {
-      lsresult = [traverse.ls(), ...lsresult];
+      lsresult = [comm.ls(this.state.path, this.state.home), ...lsresult];
     } else if (commandOptions[0] === 'pwd') {
-      lsresult = [traverse.pwd(), ...lsresult];
+      lsresult = [comm.pwd(), ...lsresult];
     } else if (commandOptions[0] === 'cd') {
-      lsresult = [traverse.cd(commandOptions[1]), ...lsresult];
+      lsresult = [comm.cd(commandOptions[1]), ...lsresult];
     } else if (commandOptions[0] === 'help') {
       lsresult = [{
         data: 'User Needs Help',
@@ -139,7 +145,7 @@ class App extends Component {
         type: 'HELP',
       }, ...lsresult];
     } else if (commandOptions[0] === 'cat') {
-      lsresult = [traverse.cat(commandOptions[1]), ...lsresult];
+      lsresult = [comm.cat(commandOptions[1]), ...lsresult];
     }
 
     this.setState({
@@ -147,7 +153,7 @@ class App extends Component {
     }, () => {
       this.setState({
         command: '',
-        currentPath: getCurrentWorkingDirectory(),
+        currentPath: comm.pwd(this.state.path).data,
       });
     });
     return null;
