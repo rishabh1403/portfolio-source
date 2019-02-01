@@ -20,9 +20,9 @@ class App extends Component {
       command: '',
       home: obj,
       path: [],
-      prevPath: [],
-      commands: [],
-      currentPath: comm.pwd([]).data,
+      previousPath: [],
+      oldCommands: [],
+      presentWorkingDirectory: comm.pwd([]).data,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -44,7 +44,7 @@ class App extends Component {
   }
 
   handleKeyDown(e) {
-    const { command, commands } = this.state;
+    const { command, oldCommands } = this.state;
     if (e.keyCode === 9) {
       e.preventDefault();
       const commandOptions = command.split(' ');
@@ -64,8 +64,8 @@ class App extends Component {
     if (e.keyCode === 38) {
       e.preventDefault();
       index += 1;
-      if (commands.length - index >= 0) {
-        this.setState(({ commands: c }) => ({
+      if (oldCommands.length - index >= 0) {
+        this.setState(({ oldCommands: c }) => ({
           command: c[c.length - index][1].trim(),
         }), () => {
           setCaretToEnd('yup');
@@ -76,16 +76,16 @@ class App extends Component {
 
   handleEnterPress() {
     index = 0;
-    const { command, commands, path, home, prevPath } = this.state;
+    const { command, oldCommands, path, home, previousPath } = this.state;
     const commandOptions = sanitizeInput(command);
     let lsresult = [sanitizeInput(command).join(' '), comm.pwd(path).data];
     if (!commandOptions[0]) {
       this.setState({
-        commands: [...commands, [{}, ...lsresult]],
+        oldCommands: [...oldCommands, [{}, ...lsresult]],
       }, () => {
         this.setState({
           command: '',
-          currentPath: comm.pwd(path).data,
+          presentWorkingDirectory: comm.pwd(path).data,
         });
       });
       return null;
@@ -93,11 +93,11 @@ class App extends Component {
 
     if (commandOptions[0] === 'clear') {
       this.setState({
-        commands: [],
+        oldCommands: [],
       }, () => {
         this.setState({
           command: '',
-          currentPath: comm.pwd(this.state.path).data,
+          presentWorkingDirectory: comm.pwd(this.state.path).data,
         });
       });
       return null;
@@ -109,11 +109,11 @@ class App extends Component {
     } else if (commandOptions[0] === 'pwd') {
       lsresult = [comm.pwd(path), ...lsresult];
     } else if (commandOptions[0] === 'cd') {
-      const cdResult = comm.cd(commandOptions[1], path, prevPath, home);
+      const cdResult = comm.cd(commandOptions[1], path, previousPath, home);
       lsresult = [cdResult, ...lsresult];
       this.setState({
         path: cdResult.path,
-        prevPath: cdResult.prevPath,
+        previousPath: cdResult.previousPath,
       });
     } else if (commandOptions[0] === 'help') {
       lsresult = [comm.help(), ...lsresult];
@@ -122,28 +122,28 @@ class App extends Component {
     }
 
     this.setState({
-      commands: [...commands, lsresult],
+      oldCommands: [...oldCommands, lsresult],
     }, () => {
       this.setState({
         command: '',
-        currentPath: comm.pwd(path).data,
+        presentWorkingDirectory: comm.pwd(path).data,
       });
     });
     return null;
   }
 
   renderCommands() {
-    const { commands } = this.state;
-    return commands.map((el, idx) => <Message key={idx.toString()} command={el} />);
+    const { oldCommands } = this.state;
+    return oldCommands.map((el, idx) => <Message key={idx.toString()} command={el} />);
   }
 
   render() {
-    const { currentPath, command } = this.state;
+    const { presentWorkingDirectory, command } = this.state;
     return (
       <React.Fragment>
         <WelcomeText />
         {this.renderCommands()}
-        <ShellPrompt path={currentPath} />
+        <ShellPrompt path={presentWorkingDirectory} />
         <ContentEditable
           className="test"
           id="yup"

@@ -100,4 +100,4 @@ export const setCaretToEnd = (id) => {
   range.collapse(true);
   sel.removeAllRanges();
   sel.addRange(range);
-}
+};
