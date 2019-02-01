@@ -13,7 +13,9 @@ import {
   sendCatSuccess,
   getAbsolutePath,
   lsLastNodeInPath,
-  catLastNodeInPath
+  catLastNodeInPath,
+  not,
+  noArgs,
 } from './util/util';
 
 export const pwd = (path) => sendPwdSuccess(`~/${path.join('/')}`);
@@ -21,59 +23,30 @@ export const pwd = (path) => sendPwdSuccess(`~/${path.join('/')}`);
 export const help = () => sendHelpSuccess('User Needs Help');
 
 export const ls = (path, data, option) => {
-  /*
-  if options length < 0
-    send single query result with path
-  if option has length
-    split option by /
-    if last value is "" , pop it [ handle trailing slash]
-    if it starts with "" or ~ [ user wanted absolute url]
-        it becomes absolute url
-      else
-          push it to path
-      checkifallaredirectoryin path
-        yes get node and display
-        no throw error
-*/
-  if (option && option.length > 0) {
-    const absolutePath = getAbsolutePath(option, path);
-    if (checkIfEveryNodeIsDirectoryExceptLastNode(absolutePath, data)) {
-      return lsLastNodeInPath(absolutePath, data, pwd);
-    } else {
-      return sendLsInvalidPathError(pwd(absolutePath).data)
-    }
-  } else {
+
+  if (noArgs(option)) {
     return lsLastNodeInPath(path, data, pwd);
+  }
+  const absolutePath = getAbsolutePath(option, path);
+  if (not(checkIfEveryNodeIsDirectoryExceptLastNode(absolutePath, data))) {
+    return sendLsInvalidPathError(pwd(absolutePath).data)
+  } else {
+    return lsLastNodeInPath(absolutePath, data, pwd);
   }
 
 }
 
 export const cat = (path, data, option) => {
 
-  /*
-  if options length <= 0
-     error . cat require a mouse to eat [ an argument to display results]
-   if option has length
-     split option by /
-     if last value is "" , pop it [ handle trailing slash]
-     if it starts with "" or ~ [ user wanted absolute url]
-         it becomes absolute url
-       else
-           push it to path
-       checkifallaredirectoryin path
-         yes get node and display
-         no throw error
-*/
-  if (option && option.length > 0) {
-    const absolutePath = getAbsolutePath(option, path);
-    if (checkIfEveryNodeIsDirectoryExceptLastNode(absolutePath, data)) {
-      return catLastNodeInPath(absolutePath, data, pwd);
-    } else {
-      return sendCatInvalidPathError(pwd(path).data);
-    }
-  } else {
+  if (noArgs(option)) {
     return sendCatPathRequiredError(pwd(path).data)
   }
+  const absolutePath = getAbsolutePath(option, path);
+  if (not(checkIfEveryNodeIsDirectoryExceptLastNode(absolutePath, data))) {
+    return sendCatInvalidPathError(pwd(absolutePath).data);
+  }
+  return catLastNodeInPath(absolutePath, data, pwd);
+
 }
 
 export const cd = (name, path, prevPath, data) => {

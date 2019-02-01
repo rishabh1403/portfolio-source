@@ -29,6 +29,9 @@ export const sendCatSuccess = sendSuccess('CAT')();
 
 export const getNodeAtPath = (path, obj) => path.reduce((acc, el) => acc.value[el], obj);
 
+export const not = cond => !cond;
+export const noArgs = args => not(args) || args.length === 0;
+
 export const checkIfEveryNodeIsDirectoryExceptLastNode = (path, obj) => {
   let { ...tempObj } = obj;
   if (path.length <= 1) {
