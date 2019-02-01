@@ -5,7 +5,12 @@ import {
   sendLsSuccess,
   sendLsInvalidPathError,
   sendLsNotADirectoryError,
-  sendPwdSuccess
+  sendPwdSuccess,
+  sendHelpSuccess,
+  sendCatInvalidPathError,
+  sendCatIsDirectoryError,
+  sendCatPathRequiredError,
+  sendCatSuccess
 } from './util/util';
 
 
@@ -69,14 +74,8 @@ export const pwd = (path) => {
 }
 
 export const help = () => {
-  return {
-    data: 'User Needs Help',
-    success: true,
-    type: 'HELP',
-  };
+  return sendHelpSuccess('User Needs Help');
 }
-
-
 
 export const cat = (path, data, option) => {
 
@@ -112,41 +111,17 @@ export const cat = (path, data, option) => {
       const ans = getNodeAtPath(absolutePath, data);
       // console.log(ans);
       if (!ans) {
-        return {
-          data: pwd(absolutePath).data,
-          code: 'INVALID_PATH',
-          success: false,
-          type: 'CAT',
-        };
+        return sendCatInvalidPathError(pwd(absolutePath).data);
       }
       if (ans.type !== 'directory') {
-        return {
-          data: ans.value,
-          success: true,
-          type: 'CAT',
-        };
+        return sendCatSuccess(ans.value);
       }
-      return {
-        data: pwd(absolutePath).data,
-        code: 'IS_DIRECTORY',
-        success: false,
-        type: 'CAT',
-      };
+      return sendCatIsDirectoryError(pwd(absolutePath).data);
     } else {
-      return {
-        data: pwd(path).data,
-        code: 'INVALID_PATH',
-        success: false,
-        type: 'CAT',
-      };
+      return sendCatInvalidPathError(pwd(path).data);
     }
   } else {
-    return {
-      data: pwd(path).data,
-      code: 'PATH_REQUIRED',
-      success: false,
-      type: 'CAT',
-    };
+    return sendCatPathRequiredError(pwd(path).data)
   }
 }
 

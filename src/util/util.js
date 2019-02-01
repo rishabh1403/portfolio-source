@@ -40,3 +40,13 @@ export const sendLsSuccess = sendSuccess('LIST')();
 
 // pwd curry
 export const sendPwdSuccess = sendSuccess('PWD')();
+
+// help curry
+export const sendHelpSuccess = sendSuccess('HELP')();
+
+// cat curry :P
+const sendCatError = sendError('CAT');
+export const sendCatInvalidPathError = sendCatError('INVALID_PATH');
+export const sendCatIsDirectoryError = sendCatError('IS_DIRECTORY');
+export const sendCatPathRequiredError = sendCatError('PATH_REQUIRED');
+export const sendCatSuccess = sendSuccess('CAT')();
