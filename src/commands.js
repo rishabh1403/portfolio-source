@@ -1,7 +1,7 @@
 /* eslint-disable */
 import {
   getNodeAtPath,
-  checkRecursivelyForDirectoryBeforeLastNode,
+  checkIfEveryNodeIsDirectoryExceptLastNode,
   sendLsSuccess,
   sendLsInvalidPathError,
   sendLsNotADirectoryError,
@@ -10,9 +10,15 @@ import {
   sendCatInvalidPathError,
   sendCatIsDirectoryError,
   sendCatPathRequiredError,
-  sendCatSuccess
+  sendCatSuccess,
+  getAbsolutePath,
+  lsLastNodeInPath,
+  catLastNodeInPath
 } from './util/util';
 
+export const pwd = (path) => {
+  return sendPwdSuccess(`~/${path.join('/')}`);
+}
 
 export const ls = (path, data, option) => {
   /*
@@ -30,46 +36,20 @@ export const ls = (path, data, option) => {
         no throw error
 */
   if (option && option.length > 0) {
-    const tempPath = option.split('/');
-    if (tempPath[tempPath.length - 1].length === 0) {
-      tempPath.pop(); //handle trailing slash
-    }
-    let absolutePath = [];
-    if (tempPath[0] === '~' || tempPath[0].length === 0) {
-      absolutePath = [...tempPath];
-      absolutePath.shift();
+    const absolutePath = getAbsolutePath(option, path);
+    if (checkIfEveryNodeIsDirectoryExceptLastNode(absolutePath, data)) {
+      return lsLastNodeInPath(absolutePath, data, pwd);
     } else {
-      absolutePath = [...path, ...tempPath];
-    }
-    if (checkRecursivelyForDirectoryBeforeLastNode(absolutePath, data)) {
-      const ans = getNodeAtPath(absolutePath, data);
-      if (!ans) {
-        return sendLsInvalidPathError(pwd(absolutePath).data)
-      }
-      if (ans.type === 'directory') {
-        return sendLsSuccess(ans.value);
-      }
-      return sendLsNotADirectoryError(pwd(absolutePath).data)
-    } else {
-      return sendLsInvalidPathError(pwd(path).data)
-    }
-  } else {
-    const ans = getNodeAtPath(path, data);
-    if (!ans) {
       return sendLsInvalidPathError(pwd(absolutePath).data)
     }
-    if (ans.type === 'directory') {
-      return sendLsSuccess(ans.value);
-    }
-    return sendLsNotADirectoryError(pwd(path).data)
+  } else {
+    return lsLastNodeInPath(path, data, pwd);
   }
 
 }
 
 
-export const pwd = (path) => {
-  return sendPwdSuccess(`~/${path.join('/')}`);
-}
+
 
 export const help = () => {
   return sendHelpSuccess('User Needs Help');
@@ -92,29 +72,9 @@ export const cat = (path, data, option) => {
          no throw error
 */
   if (option && option.length > 0) {
-    const tempPath = option.split('/');
-    if (tempPath[tempPath.length - 1].length === 0) {
-      tempPath.pop(); //handle trailing slash
-    }
-    let absolutePath = [];
-    if (tempPath[0] === '~' || tempPath[0].length === 0) {
-      absolutePath = [...tempPath];
-      absolutePath.shift();
-    } else {
-      absolutePath = [...path, ...tempPath];
-    }
-
-    if (checkRecursivelyForDirectoryBeforeLastNode(absolutePath, data)) {
-      // console.log(absolutePath);
-      const ans = getNodeAtPath(absolutePath, data);
-      // console.log(ans);
-      if (!ans) {
-        return sendCatInvalidPathError(pwd(absolutePath).data);
-      }
-      if (ans.type !== 'directory') {
-        return sendCatSuccess(ans.value);
-      }
-      return sendCatIsDirectoryError(pwd(absolutePath).data);
+    const absolutePath = getAbsolutePath(option, path);
+    if (checkIfEveryNodeIsDirectoryExceptLastNode(absolutePath, data)) {
+      return catLastNodeInPath(absolutePath, data, pwd);
     } else {
       return sendCatInvalidPathError(pwd(path).data);
     }
