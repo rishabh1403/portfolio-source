@@ -16,20 +16,19 @@ import {
 
 export const ls = (path, data, option) => {
   /*
-   if options length < 0
-      send single query result with path
-    if option has length
-      split option by /
-      if last value is "" , pop it [ handle trailing slash]
-      if it starts with "" or ~ [ user wanted absolute url]
-          it becomes absolute url
-        else
-            push it to path
-        checkifallaredirectoryin path
-          yes get node and display
-          no throw error
+  if options length < 0
+    send single query result with path
+  if option has length
+    split option by /
+    if last value is "" , pop it [ handle trailing slash]
+    if it starts with "" or ~ [ user wanted absolute url]
+        it becomes absolute url
+      else
+          push it to path
+      checkifallaredirectoryin path
+        yes get node and display
+        no throw error
 */
-  // console.log(option);
   if (option && option.length > 0) {
     const tempPath = option.split('/');
     if (tempPath[tempPath.length - 1].length === 0) {
@@ -42,7 +41,6 @@ export const ls = (path, data, option) => {
     } else {
       absolutePath = [...path, ...tempPath];
     }
-    // console.log(absolutePath);
     if (checkRecursivelyForDirectoryBeforeLastNode(absolutePath, data)) {
       const ans = getNodeAtPath(absolutePath, data);
       if (!ans) {
