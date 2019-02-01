@@ -1,13 +1,12 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
 import ContentEditable from 'react-contenteditable';
-
 import './styles/App.css';
 import {
   getRecommendation,
   match,
-  sanitizeInput, setCaretToEnd, noArgs
+  sanitizeInput,
+  setCaretToEnd,
+  noArgs,
 } from './util/util';
 import * as comm from './commands';
 import Message from './Message';
@@ -91,7 +90,7 @@ class App extends Component {
 
   updateStateWithCommandResults(oldCommands, path) {
     this.setState({
-      oldCommands: oldCommands,
+      oldCommands,
     }, () => {
       this.setState({
         command: '',
@@ -101,7 +100,7 @@ class App extends Component {
   }
 
   handleNoArgs(oldCommands, output, path) {
-    let newOutput = [{}, ...output];
+    const newOutput = [{}, ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
 
@@ -110,73 +109,80 @@ class App extends Component {
   }
 
   handleLsCommand(path, home, option, output, oldCommands) {
-    let newOutput = [comm.ls(path, home, option), ...output];
+    const newOutput = [comm.ls(path, home, option), ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
 
   handlePwdCommand(path, output, oldCommands) {
-    let newOutput = [comm.pwd(path), ...output];
+    const newOutput = [comm.pwd(path), ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
 
   handleHelpCommand(path, output, oldCommands) {
-    let newOutput = [comm.help(), ...output];
+    const newOutput = [comm.help(), ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
 
   handleCatCommand(path, home, option, output, oldCommands) {
-    let newOutput = [comm.cat(path, home, option), ...output];
+    const newOutput = [comm.cat(path, home, option), ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
 
   handleCdCommand(path, home, option, output, oldCommands, previousPath) {
     const cdResult = comm.cd(option, path, previousPath, home);
-    let newOutput = [cdResult, ...output];
+    const newOutput = [cdResult, ...output];
     this.setState({
       path: cdResult.path,
       previousPath: cdResult.previousPath,
     });
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
-  
+
   handleEnterPress() {
     index = 0;
-    const { command, oldCommands, path, home, previousPath } = this.state;
+    const
+      {
+        command,
+        oldCommands,
+        path,
+        home,
+        previousPath,
+      } = this.state;
     const commandArray = sanitizeInput(command);
-    let output = [sanitizeInput(command).join(' '), comm.pwd(path).data];
+    const output = [sanitizeInput(command).join(' '), comm.pwd(path).data];
     const isCommand = match(commandArray[0]);
 
     if (noArgs(commandArray[0])) {
-      this.handleNoArgs(oldCommands, output, path)
+      this.handleNoArgs(oldCommands, output, path);
       return null;
     }
 
     if (isCommand('clear')) {
-      this.handleClearCommand(path)
+      this.handleClearCommand(path);
       return null;
     }
 
     if (isCommand('ls')) {
-      this.handleLsCommand(path, home, commandArray[1], output, oldCommands)
+      this.handleLsCommand(path, home, commandArray[1], output, oldCommands);
       return null;
     }
 
     if (isCommand('pwd')) {
-      this.handlePwdCommand(path, output, oldCommands)
+      this.handlePwdCommand(path, output, oldCommands);
       return null;
     }
 
     if (isCommand('help')) {
-      this.handleHelpCommand(path, output, oldCommands)
+      this.handleHelpCommand(path, output, oldCommands);
       return null;
     }
 
     if (isCommand('cat')) {
-      this.handleCatCommand(path, home, commandArray[1], output, oldCommands)
+      this.handleCatCommand(path, home, commandArray[1], output, oldCommands);
       return null;
     }
     if (isCommand('cd')) {
-      this.handleCdCommand(path, home, commandArray[1], output, oldCommands, previousPath)
+      this.handleCdCommand(path, home, commandArray[1], output, oldCommands, previousPath);
       return null;
     }
     return null;
