@@ -16,9 +16,9 @@ import {
   catLastNodeInPath
 } from './util/util';
 
-export const pwd = (path) => {
-  return sendPwdSuccess(`~/${path.join('/')}`);
-}
+export const pwd = (path) => sendPwdSuccess(`~/${path.join('/')}`);
+
+export const help = () => sendHelpSuccess('User Needs Help');
 
 export const ls = (path, data, option) => {
   /*
@@ -46,13 +46,6 @@ export const ls = (path, data, option) => {
     return lsLastNodeInPath(path, data, pwd);
   }
 
-}
-
-
-
-
-export const help = () => {
-  return sendHelpSuccess('User Needs Help');
 }
 
 export const cat = (path, data, option) => {
