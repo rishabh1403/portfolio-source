@@ -1,4 +1,4 @@
-import { pwd } from '../../Traverse';
+import { pwd } from '../../commands';
 
 describe('Testing pwd command', () => {
   it('should be defined', () => {

@@ -1,4 +1,4 @@
-import { ls } from '../../Traverse';
+import { ls } from '../../commands';
 import obj from '../../util/data';
 
 describe('Testing `ls` command', () => {

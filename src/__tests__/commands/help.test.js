@@ -1,4 +1,4 @@
-import { help } from '../../Traverse';
+import { help } from '../../commands';
 
 describe('Testing help command', () => {
   it('should be defined', () => {

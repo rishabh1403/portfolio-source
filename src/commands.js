@@ -1,18 +1,8 @@
 /* eslint-disable */
-const getNodeAtPath = (path, obj) => path.reduce((acc, el) => acc.value[el], obj);
-
-const checkRecursivelyForDirectoryBeforeLastNode = (path, obj) => {
-  let { ...tempObj } = obj;
-  if (path.length <= 1) {
-    return true;
-  }
-  let tempPath = [...path];
-  tempPath.pop();
-  return tempPath.every(el => {
-    tempObj = tempObj.value[el];
-    return tempObj && tempObj.type === 'directory'
-  })
-}
+import {
+  getNodeAtPath,
+  checkRecursivelyForDirectoryBeforeLastNode
+} from './util/util';
 
 
 export const ls = (path, data, option) => {
@@ -111,16 +101,7 @@ export const help = () => {
   };
 }
 
-export const getRecommendation = (name, data, path) => {
-  let tempObj = JSON.parse(JSON.stringify(data));
-  for (let i of path) {
-    tempObj = tempObj.value[i];
-  }
-  if (typeof tempObj.value === 'object') {
-    return Object.keys(tempObj.value).filter(el => el.startsWith(name));
-  }
-  return [];
-}
+
 
 export const cat = (path, data, option) => {
 

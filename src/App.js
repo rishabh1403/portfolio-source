@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import ContentEditable from 'react-contenteditable';
 
 import './styles/App.css';
-import * as comm from './Traverse';
+import { getRecommendation } from './util/util';
+import * as comm from './commands';
 import Message from './Message';
 import WelcomeText from './components/WelcomeText';
 import obj from './util/data';
@@ -61,7 +62,7 @@ class App extends Component {
     if (e.keyCode === 9) {
       e.preventDefault();
       const commandOptions = command.split(' ');
-      const name = comm.getRecommendation(commandOptions[1], this.state.home, this.state.path);
+      const name = getRecommendation(commandOptions[1], this.state.home, this.state.path);
       // console.log(name);
       if (name.length > 0) {
         this.setState(({ command: c }) => ({

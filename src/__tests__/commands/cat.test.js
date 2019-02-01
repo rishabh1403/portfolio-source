@@ -1,4 +1,4 @@
-import { cat } from '../../Traverse';
+import { cat } from '../../commands';
 import obj from '../../util/data';
 
 describe('Testing `cat` command', () => {
