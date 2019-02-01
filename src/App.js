@@ -88,6 +88,7 @@ class App extends Component {
       });
     }
   }
+
   updateStateWithCommandResults(oldCommands, path) {
     this.setState({
       oldCommands: oldCommands,
@@ -98,29 +99,36 @@ class App extends Component {
       });
     });
   }
+
   handleNoArgs(oldCommands, output, path) {
     let newOutput = [{}, ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
+
   handleClearCommand(path) {
     this.updateStateWithCommandResults([], path);
   }
+
   handleLsCommand(path, home, option, output, oldCommands) {
     let newOutput = [comm.ls(path, home, option), ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
+
   handlePwdCommand(path, output, oldCommands) {
     let newOutput = [comm.pwd(path), ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
+
   handleHelpCommand(path, output, oldCommands) {
     let newOutput = [comm.help(), ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
+
   handleCatCommand(path, home, option, output, oldCommands) {
     let newOutput = [comm.cat(path, home, option), ...output];
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
+
   handleCdCommand(path, home, option, output, oldCommands, previousPath) {
     const cdResult = comm.cd(option, path, previousPath, home);
     let newOutput = [cdResult, ...output];
@@ -130,6 +138,7 @@ class App extends Component {
     });
     this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
+  
   handleEnterPress() {
     index = 0;
     const { command, oldCommands, path, home, previousPath } = this.state;
