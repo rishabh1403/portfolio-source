@@ -1,7 +1,11 @@
 /* eslint-disable */
 import {
   getNodeAtPath,
-  checkRecursivelyForDirectoryBeforeLastNode
+  checkRecursivelyForDirectoryBeforeLastNode,
+  sendLsSuccess,
+  sendLsInvalidPathError,
+  sendLsNotADirectoryError,
+  sendPwdSuccess
 } from './util/util';
 
 
@@ -37,60 +41,31 @@ export const ls = (path, data, option) => {
     if (checkRecursivelyForDirectoryBeforeLastNode(absolutePath, data)) {
       const ans = getNodeAtPath(absolutePath, data);
       if (!ans) {
-        return {
-          data: pwd(absolutePath).data,
-          code: 'INVALID_PATH',
-          success: false,
-          type: 'LIST',
-        };
+        return sendLsInvalidPathError(pwd(absolutePath).data)
       }
       if (ans.type === 'directory') {
-        return {
-          data: ans.value,
-          success: true,
-          type: 'LIST',
-        };
+        return sendLsSuccess(ans.value);
       }
-      return {
-        data: pwd(absolutePath).data,
-        code: 'NOT_A_DIRECTORY',
-        success: false,
-        type: 'LIST',
-      };
+      return sendLsNotADirectoryError(pwd(absolutePath).data)
     } else {
-      return {
-        data: pwd(path).data,
-        code: 'INVALID_PATH',
-        success: false,
-        type: 'LIST',
-      };
+      return sendLsInvalidPathError(pwd(path).data)
     }
   } else {
     const ans = getNodeAtPath(path, data);
-    if (ans.type === 'directory') {
-      return {
-        data: ans.value,
-        success: true,
-        type: 'LIST',
-      };
+    if (!ans) {
+      return sendLsInvalidPathError(pwd(absolutePath).data)
     }
-    return {
-      data: pwd(path).data,
-      code: 'NOT_A_DIRECTORY',
-      success: false,
-      type: 'LIST',
-    };
+    if (ans.type === 'directory') {
+      return sendLsSuccess(ans.value);
+    }
+    return sendLsNotADirectoryError(pwd(path).data)
   }
 
 }
 
 
 export const pwd = (path) => {
-  return {
-    data: `~/${path.join('/')}`,
-    success: true,
-    type: 'PWD',
-  };
+  return sendPwdSuccess(`~/${path.join('/')}`);
 }
 
 export const help = () => {

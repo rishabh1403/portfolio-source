@@ -21,3 +21,22 @@ export const getRecommendation = (name, data, path) => {
   }
   return [];
 };
+
+const sendResponse = success => type => code => data => ({
+  success,
+  type,
+  code,
+  data,
+});
+
+const sendError = sendResponse(false);
+const sendSuccess = sendResponse(true);
+
+// ls curry
+const sendLsError = sendError('LIST');
+export const sendLsInvalidPathError = sendLsError('INVALID_PATH');
+export const sendLsNotADirectoryError = sendLsError('NOT_A_DIRECTORY');
+export const sendLsSuccess = sendSuccess('LIST')();
+
+// pwd curry
+export const sendPwdSuccess = sendSuccess('PWD')();
