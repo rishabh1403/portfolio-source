@@ -10,7 +10,7 @@ import {
 } from './util/util';
 import * as comm from './commands';
 import Message from './Message';
-import ShellPrompt from './ShellPrompt';
+import ShellPrompt from './components/ShellPrompt';
 import WelcomeText from './components/WelcomeText';
 import obj from './util/data';
 
@@ -71,7 +71,7 @@ class App extends Component {
       this.setState({
         command: `${commandArray[0]} ${name}`,
       }, () => {
-        setCaretToEnd('yup');
+        setCaretToEnd('command-input');
       });
     }
   }
@@ -83,7 +83,7 @@ class App extends Component {
       this.setState({
         command: oldCommands[oldCommands.length - index][1].trim(),
       }, () => {
-        setCaretToEnd('yup');
+        setCaretToEnd('command-input');
       });
     }
   }
@@ -202,7 +202,7 @@ class App extends Component {
         <ShellPrompt path={presentWorkingDirectory} />
         <ContentEditable
           className="test"
-          id="yup"
+          id="command-input"
           tabIndex="0"
           autoCorrect="off"
           autoCapitalize="none"

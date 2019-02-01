@@ -5,7 +5,7 @@ import Help from './components/Help';
 import Pwd from './components/Pwd';
 import Cat from './components/Cat';
 import Error from './Error';
-import ShellPrompt from './ShellPrompt';
+import ShellPrompt from './components/ShellPrompt';
 
 const renderCommandOutput = (success, type, data) => {
   if (!success) {
