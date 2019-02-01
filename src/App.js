@@ -4,7 +4,11 @@ import React, { Component } from 'react';
 import ContentEditable from 'react-contenteditable';
 
 import './styles/App.css';
-import { getRecommendation, sanitizeInput, setCaretToEnd } from './util/util';
+import {
+  getRecommendation,
+  match,
+  sanitizeInput, setCaretToEnd, noArgs
+} from './util/util';
 import * as comm from './commands';
 import Message from './Message';
 import ShellPrompt from './ShellPrompt';
@@ -84,62 +88,127 @@ class App extends Component {
       });
     }
   }
-  
-  handleEnterPress() {
-    index = 0;
-    const { command, oldCommands, path, home, previousPath } = this.state;
-    const commandOptions = sanitizeInput(command);
-    let lsresult = [sanitizeInput(command).join(' '), comm.pwd(path).data];
-    if (!commandOptions[0]) {
-      this.setState({
-        oldCommands: [...oldCommands, [{}, ...lsresult]],
-      }, () => {
-        this.setState({
-          command: '',
-          presentWorkingDirectory: comm.pwd(path).data,
-        });
-      });
-      return null;
-    }
 
-    if (commandOptions[0] === 'clear') {
-      this.setState({
-        oldCommands: [],
-      }, () => {
-        this.setState({
-          command: '',
-          presentWorkingDirectory: comm.pwd(this.state.path).data,
-        });
-      });
-      return null;
-    }
-
-
-    if (commandOptions[0] === 'ls') {
-      lsresult = [comm.ls(path, home, commandOptions[1]), ...lsresult];
-    } else if (commandOptions[0] === 'pwd') {
-      lsresult = [comm.pwd(path), ...lsresult];
-    } else if (commandOptions[0] === 'cd') {
-      const cdResult = comm.cd(commandOptions[1], path, previousPath, home);
-      lsresult = [cdResult, ...lsresult];
-      this.setState({
-        path: cdResult.path,
-        previousPath: cdResult.previousPath,
-      });
-    } else if (commandOptions[0] === 'help') {
-      lsresult = [comm.help(), ...lsresult];
-    } else if (commandOptions[0] === 'cat') {
-      lsresult = [comm.cat(path, home, commandOptions[1]), ...lsresult];
-    }
-
+  handleNoArgs(oldCommands, lsresult, path) {
     this.setState({
-      oldCommands: [...oldCommands, lsresult],
+      oldCommands: [...oldCommands, [{}, ...lsresult]],
     }, () => {
       this.setState({
         command: '',
         presentWorkingDirectory: comm.pwd(path).data,
       });
     });
+  }
+  handleClearCommand(path) {
+    this.setState({
+      oldCommands: [],
+    }, () => {
+      this.setState({
+        command: '',
+        presentWorkingDirectory: comm.pwd(path).data,
+      });
+    });
+  }
+  handleLsCommand(path, home, commandOptions, lsresult, oldCommands) {
+    let newLs = [comm.ls(path, home, commandOptions), ...lsresult];
+    this.setState({
+      oldCommands: [...oldCommands, newLs],
+    }, () => {
+      this.setState({
+        command: '',
+        presentWorkingDirectory: comm.pwd(path).data,
+      });
+    });
+  }
+  handlePwdCommand(path, lsresult, oldCommands) {
+    let newLas = [comm.pwd(path), ...lsresult];
+    this.setState({
+      oldCommands: [...oldCommands, newLas],
+    }, () => {
+      this.setState({
+        command: '',
+        presentWorkingDirectory: comm.pwd(path).data,
+      });
+    });
+  }
+  handleHelpCommand(path, lsresult, oldCommands) {
+    let newLs = [comm.help(), ...lsresult];
+    this.setState({
+      oldCommands: [...oldCommands, newLs],
+    }, () => {
+      this.setState({
+        command: '',
+        presentWorkingDirectory: comm.pwd(path).data,
+      });
+    });
+  }
+  handleCatCommand(path, home, commandOptions, lsresult, oldCommands) {
+    let newLs = [comm.cat(path, home, commandOptions), ...lsresult];
+    this.setState({
+      oldCommands: [...oldCommands, newLs],
+    }, () => {
+      this.setState({
+        command: '',
+        presentWorkingDirectory: comm.pwd(path).data,
+      });
+    });
+  }
+  handleCdCommand(path, home, commandOptions, lsresult, oldCommands, previousPath) {
+    const cdResult = comm.cd(commandOptions, path, previousPath, home);
+    let newLs = [cdResult, ...lsresult];
+    this.setState({
+      path: cdResult.path,
+      previousPath: cdResult.previousPath,
+    });
+    this.setState({
+      oldCommands: [...oldCommands, newLs],
+    }, () => {
+      this.setState({
+        command: '',
+        presentWorkingDirectory: comm.pwd(path).data,
+      });
+    });
+  }
+  handleEnterPress() {
+    index = 0;
+    const { command, oldCommands, path, home, previousPath } = this.state;
+    const commandOptions = sanitizeInput(command);
+    let lsresult = [sanitizeInput(command).join(' '), comm.pwd(path).data];
+    const isCommand = match(commandOptions[0]);
+
+    if (noArgs(commandOptions[0])) {
+      this.handleNoArgs(oldCommands, lsresult, path)
+      return null;
+    }
+
+    if (isCommand('clear')) {
+      this.handleClearCommand(path)
+      return null;
+    }
+
+    if (isCommand('ls')) {
+      this.handleLsCommand(path, home, commandOptions[1], lsresult, oldCommands)
+      return null;
+    }
+
+    if (isCommand('pwd')) {
+      this.handlePwdCommand(path, lsresult, oldCommands)
+      return null;
+    }
+
+    if (isCommand('help')) {
+      this.handleHelpCommand(path, lsresult, oldCommands)
+      return null;
+    }
+
+    if (isCommand('cat')) {
+      this.handleCatCommand(path, home, commandOptions[1], lsresult, oldCommands)
+      return null;
+    }
+    if (isCommand('cd')) {
+      this.handleCdCommand(path, home, commandOptions[1], lsresult, oldCommands, previousPath)
+      return null;
+    }
     return null;
   }
 
