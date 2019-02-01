@@ -4,25 +4,14 @@ import React, { Component } from 'react';
 import ContentEditable from 'react-contenteditable';
 
 import './styles/App.css';
-import { getRecommendation, sanitizeInput } from './util/util';
+import { getRecommendation, sanitizeInput, setCaretToEnd } from './util/util';
 import * as comm from './commands';
 import Message from './Message';
 import ShellPrompt from './ShellPrompt';
 import WelcomeText from './components/WelcomeText';
 import obj from './util/data';
 
-
 let index = 0;
-const setCaretToEnd = () => {
-  const el = document.getElementById('yup');
-  const range = document.createRange();
-  const sel = window.getSelection();
-  range.setStart(el.childNodes[0], el.childNodes[0].length);
-  range.collapse(true);
-  sel.removeAllRanges();
-  sel.addRange(range);
-}
-
 
 class App extends Component {
   constructor(props) {
@@ -64,7 +53,7 @@ class App extends Component {
         this.setState(({ command: c }) => ({
           command: `${c.split(' ')[0]} ${name}`,
         }), () => {
-          setCaretToEnd();
+          setCaretToEnd('yup');
         });
       }
     }
@@ -79,7 +68,7 @@ class App extends Component {
         this.setState(({ commands: c }) => ({
           command: c[c.length - index][1].trim(),
         }), () => {
-          setCaretToEnd();
+          setCaretToEnd('yup');
         });
       }
     }
@@ -155,7 +144,6 @@ class App extends Component {
         <WelcomeText />
         {this.renderCommands()}
         <ShellPrompt path={currentPath} />
-
         <ContentEditable
           className="test"
           id="yup"

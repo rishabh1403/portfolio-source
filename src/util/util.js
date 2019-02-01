@@ -91,3 +91,13 @@ export const getAbsolutePath = (option, path) => {
   }
   return absolutePath;
 };
+
+export const setCaretToEnd = (id) => {
+  const el = document.getElementById(id);
+  const range = document.createRange();
+  const sel = window.getSelection();
+  range.setStart(el.childNodes[0], el.childNodes[0].length);
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
