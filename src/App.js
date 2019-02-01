@@ -98,47 +98,47 @@ class App extends Component {
       });
     });
   }
-  handleNoArgs(oldCommands, lsresult, path) {
-    let newLs = [{}, ...lsresult];
-    this.updateStateWithCommandResults([...oldCommands, newLs], path);
+  handleNoArgs(oldCommands, output, path) {
+    let newOutput = [{}, ...output];
+    this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
   handleClearCommand(path) {
     this.updateStateWithCommandResults([], path);
   }
-  handleLsCommand(path, home, commandOptions, lsresult, oldCommands) {
-    let newLs = [comm.ls(path, home, commandOptions), ...lsresult];
-    this.updateStateWithCommandResults([...oldCommands, newLs], path);
+  handleLsCommand(path, home, option, output, oldCommands) {
+    let newOutput = [comm.ls(path, home, option), ...output];
+    this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
-  handlePwdCommand(path, lsresult, oldCommands) {
-    let newLs = [comm.pwd(path), ...lsresult];
-    this.updateStateWithCommandResults([...oldCommands, newLs], path);
+  handlePwdCommand(path, output, oldCommands) {
+    let newOutput = [comm.pwd(path), ...output];
+    this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
-  handleHelpCommand(path, lsresult, oldCommands) {
-    let newLs = [comm.help(), ...lsresult];
-    this.updateStateWithCommandResults([...oldCommands, newLs], path);
+  handleHelpCommand(path, output, oldCommands) {
+    let newOutput = [comm.help(), ...output];
+    this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
-  handleCatCommand(path, home, commandOptions, lsresult, oldCommands) {
-    let newLs = [comm.cat(path, home, commandOptions), ...lsresult];
-    this.updateStateWithCommandResults([...oldCommands, newLs], path);
+  handleCatCommand(path, home, option, output, oldCommands) {
+    let newOutput = [comm.cat(path, home, option), ...output];
+    this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
-  handleCdCommand(path, home, commandOptions, lsresult, oldCommands, previousPath) {
-    const cdResult = comm.cd(commandOptions, path, previousPath, home);
-    let newLs = [cdResult, ...lsresult];
+  handleCdCommand(path, home, option, output, oldCommands, previousPath) {
+    const cdResult = comm.cd(option, path, previousPath, home);
+    let newOutput = [cdResult, ...output];
     this.setState({
       path: cdResult.path,
       previousPath: cdResult.previousPath,
     });
-    this.updateStateWithCommandResults([...oldCommands, newLs], path);
+    this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
   handleEnterPress() {
     index = 0;
     const { command, oldCommands, path, home, previousPath } = this.state;
-    const commandOptions = sanitizeInput(command);
-    let lsresult = [sanitizeInput(command).join(' '), comm.pwd(path).data];
-    const isCommand = match(commandOptions[0]);
+    const commandArray = sanitizeInput(command);
+    let output = [sanitizeInput(command).join(' '), comm.pwd(path).data];
+    const isCommand = match(commandArray[0]);
 
-    if (noArgs(commandOptions[0])) {
-      this.handleNoArgs(oldCommands, lsresult, path)
+    if (noArgs(commandArray[0])) {
+      this.handleNoArgs(oldCommands, output, path)
       return null;
     }
 
@@ -148,26 +148,26 @@ class App extends Component {
     }
 
     if (isCommand('ls')) {
-      this.handleLsCommand(path, home, commandOptions[1], lsresult, oldCommands)
+      this.handleLsCommand(path, home, commandArray[1], output, oldCommands)
       return null;
     }
 
     if (isCommand('pwd')) {
-      this.handlePwdCommand(path, lsresult, oldCommands)
+      this.handlePwdCommand(path, output, oldCommands)
       return null;
     }
 
     if (isCommand('help')) {
-      this.handleHelpCommand(path, lsresult, oldCommands)
+      this.handleHelpCommand(path, output, oldCommands)
       return null;
     }
 
     if (isCommand('cat')) {
-      this.handleCatCommand(path, home, commandOptions[1], lsresult, oldCommands)
+      this.handleCatCommand(path, home, commandArray[1], output, oldCommands)
       return null;
     }
     if (isCommand('cd')) {
-      this.handleCdCommand(path, home, commandOptions[1], lsresult, oldCommands, previousPath)
+      this.handleCdCommand(path, home, commandArray[1], output, oldCommands, previousPath)
       return null;
     }
     return null;
