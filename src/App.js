@@ -88,16 +88,19 @@ class App extends Component {
       });
     }
   }
-
-  handleNoArgs(oldCommands, lsresult, path) {
+  updateStateWithCommandResults(oldCommands,newLs,path){
     this.setState({
-      oldCommands: [...oldCommands, [{}, ...lsresult]],
+      oldCommands: [...oldCommands, newLs],
     }, () => {
       this.setState({
         command: '',
         presentWorkingDirectory: comm.pwd(path).data,
       });
     });
+  }
+  handleNoArgs(oldCommands, lsresult, path) {
+    let newLs = [{},...lsresult];
+    this.updateStateWithCommandResults(oldCommands,newLs,path);
   }
   handleClearCommand(path) {
     this.setState({
@@ -111,47 +114,19 @@ class App extends Component {
   }
   handleLsCommand(path, home, commandOptions, lsresult, oldCommands) {
     let newLs = [comm.ls(path, home, commandOptions), ...lsresult];
-    this.setState({
-      oldCommands: [...oldCommands, newLs],
-    }, () => {
-      this.setState({
-        command: '',
-        presentWorkingDirectory: comm.pwd(path).data,
-      });
-    });
+    this.updateStateWithCommandResults(oldCommands,newLs,path);
   }
   handlePwdCommand(path, lsresult, oldCommands) {
-    let newLas = [comm.pwd(path), ...lsresult];
-    this.setState({
-      oldCommands: [...oldCommands, newLas],
-    }, () => {
-      this.setState({
-        command: '',
-        presentWorkingDirectory: comm.pwd(path).data,
-      });
-    });
+    let newLs = [comm.pwd(path), ...lsresult];
+    this.updateStateWithCommandResults(oldCommands,newLs,path);
   }
   handleHelpCommand(path, lsresult, oldCommands) {
     let newLs = [comm.help(), ...lsresult];
-    this.setState({
-      oldCommands: [...oldCommands, newLs],
-    }, () => {
-      this.setState({
-        command: '',
-        presentWorkingDirectory: comm.pwd(path).data,
-      });
-    });
+    this.updateStateWithCommandResults(oldCommands,newLs,path);
   }
   handleCatCommand(path, home, commandOptions, lsresult, oldCommands) {
     let newLs = [comm.cat(path, home, commandOptions), ...lsresult];
-    this.setState({
-      oldCommands: [...oldCommands, newLs],
-    }, () => {
-      this.setState({
-        command: '',
-        presentWorkingDirectory: comm.pwd(path).data,
-      });
-    });
+    this.updateStateWithCommandResults(oldCommands,newLs,path);
   }
   handleCdCommand(path, home, commandOptions, lsresult, oldCommands, previousPath) {
     const cdResult = comm.cd(commandOptions, path, previousPath, home);
@@ -160,14 +135,7 @@ class App extends Component {
       path: cdResult.path,
       previousPath: cdResult.previousPath,
     });
-    this.setState({
-      oldCommands: [...oldCommands, newLs],
-    }, () => {
-      this.setState({
-        command: '',
-        presentWorkingDirectory: comm.pwd(path).data,
-      });
-    });
+    this.updateStateWithCommandResults(oldCommands,newLs,path);
   }
   handleEnterPress() {
     index = 0;
