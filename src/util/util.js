@@ -31,6 +31,7 @@ export const getNodeAtPath = (path, obj) => path.reduce((acc, el) => acc.value[e
 
 export const not = cond => !cond;
 export const noArgs = args => not(args) || args.length === 0;
+export const sanitizeInput = input => input.replace('&nbsp;', '').trim().split(' ').map(el => el.replace('&nbsp;', ''));
 
 export const checkIfEveryNodeIsDirectoryExceptLastNode = (path, obj) => {
   let { ...tempObj } = obj;

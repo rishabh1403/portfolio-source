@@ -5,6 +5,7 @@ import Help from './components/Help';
 import Pwd from './components/Pwd';
 import Cat from './components/Cat';
 import Error from './Error';
+import ShellPrompt from './ShellPrompt';
 
 const renderCommandOutput = (success, type, data) => {
   if (!success) {
@@ -30,12 +31,7 @@ class Message extends PureComponent {
     const { command } = this.props;
     return (
       <div>
-        <span className="shell">
-          <b>
-            {`${command[2]} `}
-            $ &gt;
-          </b>
-        </span>
+        <ShellPrompt path={command[2]} />
         <span>
           {command[1]}
         </span>

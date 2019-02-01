@@ -4,18 +4,25 @@ import React, { Component } from 'react';
 import ContentEditable from 'react-contenteditable';
 
 import './styles/App.css';
-import { getRecommendation } from './util/util';
+import { getRecommendation, sanitizeInput } from './util/util';
 import * as comm from './commands';
 import Message from './Message';
+import ShellPrompt from './ShellPrompt';
 import WelcomeText from './components/WelcomeText';
 import obj from './util/data';
 
-const sanitizeInput = input => input.replace("&nbsp;", "").trim().split(' ').map(el => el.replace('&nbsp;', ''));
 
-// console.log(comm['ls']([], obj));
-// const traverse = new Traverse();
 let index = 0;
-// const getCurrentWorkingDirectory = () => traverse.pwd().data;
+const setCaretToEnd = () => {
+  const el = document.getElementById('yup');
+  const range = document.createRange();
+  const sel = window.getSelection();
+  range.setStart(el.childNodes[0], el.childNodes[0].length);
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
 
 class App extends Component {
   constructor(props) {
@@ -44,40 +51,22 @@ class App extends Component {
   }
 
   handleChange(evt) {
-    // console.log("key change")
-    // if (/<br>/.test(evt.target.value)) {
-    //   console.log("enter is press");
-    //   this.handleEnterPress();
-    // }
-    // console.log("enter is not press");
     this.setState({ command: evt.target.value });
   }
 
   handleKeyDown(e) {
-    // let that = this;
-    // console.log("key dowm")
-    // console.log(e);
-    // console.log(e.target.innerText);
     const { command, commands } = this.state;
     if (e.keyCode === 9) {
       e.preventDefault();
       const commandOptions = command.split(' ');
       const name = getRecommendation(commandOptions[1], this.state.home, this.state.path);
-      // console.log(name);
       if (name.length > 0) {
         this.setState(({ command: c }) => ({
           command: `${c.split(' ')[0]} ${name}`,
         }), () => {
-          const el = document.getElementById('yup');
-          const range = document.createRange();
-          const sel = window.getSelection();
-          range.setStart(el.childNodes[0], el.childNodes[0].length);
-          range.collapse(true);
-          sel.removeAllRanges();
-          sel.addRange(range);
+          setCaretToEnd();
         });
       }
-      // this.handleEnterPress();
     }
     if (e.keyCode === 13) {
       e.preventDefault();
@@ -87,17 +76,10 @@ class App extends Component {
       e.preventDefault();
       index += 1;
       if (commands.length - index >= 0) {
-        // console.log(this.state.commands[this.state.commands.length - index][1])
         this.setState(({ commands: c }) => ({
           command: c[c.length - index][1].trim(),
         }), () => {
-          const el = document.getElementById('yup');
-          const range = document.createRange();
-          const sel = window.getSelection();
-          range.setStart(el.childNodes[0], el.childNodes[0].length);
-          range.collapse(true);
-          sel.removeAllRanges();
-          sel.addRange(range);
+          setCaretToEnd();
         });
       }
     }
@@ -105,16 +87,16 @@ class App extends Component {
 
   handleEnterPress() {
     index = 0;
-    const { command, commands } = this.state;
+    const { command, commands, path, home, prevPath } = this.state;
     const commandOptions = sanitizeInput(command);
-    let lsresult = [sanitizeInput(command).join(' '), comm.pwd(this.state.path).data];
+    let lsresult = [sanitizeInput(command).join(' '), comm.pwd(path).data];
     if (!commandOptions[0]) {
       this.setState({
         commands: [...commands, [{}, ...lsresult]],
       }, () => {
         this.setState({
           command: '',
-          currentPath: comm.pwd(this.state.path).data,
+          currentPath: comm.pwd(path).data,
         });
       });
       return null;
@@ -134,11 +116,11 @@ class App extends Component {
 
 
     if (commandOptions[0] === 'ls') {
-      lsresult = [comm.ls(this.state.path, this.state.home, commandOptions[1]), ...lsresult];
+      lsresult = [comm.ls(path, home, commandOptions[1]), ...lsresult];
     } else if (commandOptions[0] === 'pwd') {
-      lsresult = [comm.pwd(this.state.path), ...lsresult];
+      lsresult = [comm.pwd(path), ...lsresult];
     } else if (commandOptions[0] === 'cd') {
-      const cdResult = comm.cd(commandOptions[1], this.state.path, this.state.prevPath, this.state.home);
+      const cdResult = comm.cd(commandOptions[1], path, prevPath, home);
       lsresult = [cdResult, ...lsresult];
       this.setState({
         path: cdResult.path,
@@ -147,7 +129,7 @@ class App extends Component {
     } else if (commandOptions[0] === 'help') {
       lsresult = [comm.help(), ...lsresult];
     } else if (commandOptions[0] === 'cat') {
-      lsresult = [comm.cat(this.state.path, this.state.home, commandOptions[1]), ...lsresult];
+      lsresult = [comm.cat(path, home, commandOptions[1]), ...lsresult];
     }
 
     this.setState({
@@ -155,7 +137,7 @@ class App extends Component {
     }, () => {
       this.setState({
         command: '',
-        currentPath: comm.pwd(this.state.path).data,
+        currentPath: comm.pwd(path).data,
       });
     });
     return null;
@@ -172,30 +154,22 @@ class App extends Component {
       <React.Fragment>
         <WelcomeText />
         {this.renderCommands()}
-        <React.Fragment>
+        <ShellPrompt path={currentPath} />
 
-          <span className="shell">
-            <b>
-              {`${currentPath} `}
-              $ &gt;
-            </b>
-          </span>
-
-          <ContentEditable
-            className="test"
-            id="yup"
-            tabIndex="0"
-            autoCorrect="off"
-            autoCapitalize="none"
-            innerRef={this.contentEditable}
-            html={command} // innerHTML of the editable div
-            disabled={false} // use true to disable editing
-            onChange={this.handleChange} // handle innerHTML change
-            onKeyDown={this.handleKeyDown}
-            tagName="span" // Use a custom HTML tag (uses a div by default)
-          />
-          <div className="cursor" />
-        </React.Fragment>
+        <ContentEditable
+          className="test"
+          id="yup"
+          tabIndex="0"
+          autoCorrect="off"
+          autoCapitalize="none"
+          innerRef={this.contentEditable}
+          html={command}
+          disabled={false}
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyDown}
+          tagName="span"
+        />
+        <div className="cursor" />
       </React.Fragment>
     );
   }
