@@ -44,36 +44,47 @@ class App extends Component {
   }
 
   handleKeyDown(e) {
-    const { command, oldCommands } = this.state;
     if (e.keyCode === 9) {
       e.preventDefault();
-      const commandOptions = command.split(' ');
-      const name = getRecommendation(commandOptions[1], this.state.home, this.state.path);
-      if (name.length > 0) {
-        this.setState(({ command: c }) => ({
-          command: `${c.split(' ')[0]} ${name}`,
-        }), () => {
-          setCaretToEnd('yup');
-        });
-      }
+      this.handleTabPress();
     }
+
     if (e.keyCode === 13) {
       e.preventDefault();
       this.handleEnterPress();
     }
+
     if (e.keyCode === 38) {
       e.preventDefault();
-      index += 1;
-      if (oldCommands.length - index >= 0) {
-        this.setState(({ oldCommands: c }) => ({
-          command: c[c.length - index][1].trim(),
-        }), () => {
-          setCaretToEnd('yup');
-        });
-      }
+      this.handleUpArrowPress();
     }
   }
 
+  handleTabPress() {
+    const { command, home, path } = this.state;
+    const commandArray = command.split(' ');
+    const name = getRecommendation(commandArray[1], home, path);
+    if (name.length > 0) {
+      this.setState({
+        command: `${commandArray[0]} ${name}`,
+      }, () => {
+        setCaretToEnd('yup');
+      });
+    }
+  }
+
+  handleUpArrowPress() {
+    index += 1;
+    const { oldCommands } = this.state;
+    if (oldCommands.length - index >= 0) {
+      this.setState({
+        command: oldCommands[oldCommands.length - index][1].trim(),
+      }, () => {
+        setCaretToEnd('yup');
+      });
+    }
+  }
+  
   handleEnterPress() {
     index = 0;
     const { command, oldCommands, path, home, previousPath } = this.state;
