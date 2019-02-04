@@ -15,7 +15,7 @@ describe('Data for application', () => {
   describe('the value property', () => {
     const { value } = obj;
     it('should have two properties', () => {
-      expect(Object.keys(value).length).toBe(2);
+      expect(Object.keys(value).length).toBe(4);
     });
   });
 });

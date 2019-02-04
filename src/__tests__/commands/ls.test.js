@@ -31,16 +31,16 @@ describe('Testing `ls` command', () => {
       expect(ls(path, data).success).toBeDefined();
     });
     it('should list root when no arguments are provided', () => {
-      expect(Object.keys(ls(path, data).data)).toHaveLength(2);
+      expect(Object.keys(ls(path, data).data)).toHaveLength(4);
     });
   });
   describe('Testing with absolute urls', () => {
     it('should treat ~ as home', () => {
-      expect(Object.keys(ls(path, data).data)).toHaveLength(2);
+      expect(Object.keys(ls(path, data).data)).toHaveLength(4);
     });
     it('should treat / as home', () => {
       arg = '/';
-      expect(Object.keys(ls(path, data).data)).toHaveLength(2);
+      expect(Object.keys(ls(path, data).data)).toHaveLength(4);
     });
     it('should do recursive lookup with / as prefix', () => {
       arg = '/about';
