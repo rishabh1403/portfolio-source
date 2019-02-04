@@ -37,9 +37,73 @@ const obj = {
         },
       },
     },
-    // work: '',
+    skills: {
+      type: 'directory',
+      value: {
+        javascript: {
+          type: 'file',
+          value: '(Intermediate)',
+        },
+        Html: {
+          type: 'file',
+          value: '(Intermediate)',
+        },
+        css: {
+          type: 'file',
+          value: '(Intermediate)',
+        },
+        React: {
+          type: 'file',
+          value: '(Intermediate)',
+        },
+        Node: {
+          type: 'file',
+          value: '(Intermediate)',
+        },
+      },
+    },
+    work: {
+      type: 'directory',
+      value: {
+        Mappes: {
+          type: 'directory',
+          value: {
+            stack: {
+              type: 'file',
+              value: 'Node, React & DynamoDb',
+            },
+          },
+        },
+        Aikaan: {
+          type: 'directory',
+          value: {
+            stack: {
+              type: 'file',
+              value: 'Node, Golang, React & PostgreSql',
+            },
+          },
+        },
+        Tricog: {
+          type: 'directory',
+          value: {
+            stack: {
+              type: 'file',
+              value: 'Node, Angular & Sql',
+            },
+          },
+        },
+        Sportzify: {
+          type: 'directory',
+          value: {
+            stack: {
+              type: 'file',
+              value: 'Node, Jquery & MongoDb',
+            },
+          },
+        },
+      },
+    },
     // projects: '',
-    // skills: '',
   },
 
 };
