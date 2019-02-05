@@ -74,7 +74,8 @@ const Error = ({ data }) => {
           <code>
             {data.data}
           </code>
-          is an invalid path, for a directory. Try using <code>cat</code>
+          is an invalid path, for a directory. Try using
+          <code>cat</code>
         </div>
       );
     }
