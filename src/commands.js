@@ -54,7 +54,7 @@ export const cat = (path, data, option) => {
 
 export const cd = (name, path, previousPath, data) => {
   if (noArgs(name)) {
-    previousPath = JSON.parse(JSON.stringify(path));
+    previousPath = [...path];
     path = [];
     return {
       previousPath,
@@ -63,9 +63,9 @@ export const cd = (name, path, previousPath, data) => {
   }
   const isPath = match(name);
   if (isPath('-')) {
-    const temp = JSON.parse(JSON.stringify(previousPath));
-    previousPath = JSON.parse(JSON.stringify(path));
-    path = JSON.parse(JSON.stringify(temp));
+    const temp = [...previousPath];
+    previousPath = [...path];
+    path = [...temp];
     console.log(previousPath);
     console.log(path);
     return {
@@ -77,7 +77,7 @@ export const cd = (name, path, previousPath, data) => {
     };
   }
   if (isPath('..')) {
-    previousPath = JSON.parse(JSON.stringify(path));
+    previousPath = [...path];
     path.pop();
     return {
       previousPath,
@@ -97,7 +97,7 @@ export const cd = (name, path, previousPath, data) => {
     return { ...sendCdInvalidPathError(pwd(absolutePath).data), previousPath, path };
   }
   return {
-    previousPath: JSON.parse(JSON.stringify(path)),
+    previousPath: [...path],
     path: absolutePath,
   };
 
