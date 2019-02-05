@@ -134,8 +134,9 @@ class App extends Component {
     this.setState({
       path: cdResult.path,
       previousPath: cdResult.previousPath,
+    }, () => {
+      this.updateStateWithCommandResults([...oldCommands, newOutput], this.state.path); // eslint-disable-line
     });
-    this.updateStateWithCommandResults([...oldCommands, newOutput], path);
   }
 
   handleEnterPress() {

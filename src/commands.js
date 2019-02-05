@@ -49,35 +49,37 @@ export const cat = (path, data, option) => {
 
 }
 
-export const cd = (name, path, prevPath, data) => {
+export const cd = (name, path, previousPath, data) => {
   // handle for no args
   if (!name || name.length === 0) {
-    prevPath = JSON.parse(JSON.stringify(path));
+    previousPath = JSON.parse(JSON.stringify(path));
     path = [];
     return {
-      prevPath,
+      previousPath,
       path,
     };
   }
   // handle for '-' 
   if (name === '-') {
-    const temp = JSON.parse(JSON.stringify(prevPath));
-    prevPath = JSON.parse(JSON.stringify(path));
+    const temp = JSON.parse(JSON.stringify(previousPath));
+    previousPath = JSON.parse(JSON.stringify(path));
     path = JSON.parse(JSON.stringify(temp));
+    console.log(previousPath);
+    console.log(path);
     return {
       data: `~/${path.join('/')}`,
       success: true,
       type: 'PWD',
-      prevPath,
+      previousPath,
       path,
     };
   }
   // get rid of this
   if (name === '..') {
-    prevPath = JSON.parse(JSON.stringify(path));
+    previousPath = JSON.parse(JSON.stringify(path));
     path.pop();
     return {
-      prevPath,
+      previousPath,
       path,
     };
   }
@@ -140,16 +142,16 @@ export const cd = (name, path, prevPath, data) => {
   }
   /*
   if (name === '..') {
-    this.prevPath = JSON.parse(JSON.stringify(this.path));
+    this.previousPath = JSON.parse(JSON.stringify(this.path));
     this.path.pop();
   } else if (name === '.') {
     // directory remains unchanged
   } else if (name === '-') {
-    const temp = JSON.parse(JSON.stringify(this.prevPath));
-    this.prevPath = JSON.parse(JSON.stringify(this.path));
+    const temp = JSON.parse(JSON.stringify(this.previousPath));
+    this.previousPath = JSON.parse(JSON.stringify(this.path));
     this.path = JSON.parse(JSON.stringify(temp));
   } else {
-    this.prevPath = JSON.parse(JSON.stringify(this.path));
+    this.previousPath = JSON.parse(JSON.stringify(this.path));
     let newName = name;
     newName = newName.split('/');
     const ans = [...this.path, ...newName];
@@ -166,7 +168,7 @@ export const cd = (name, path, prevPath, data) => {
   }
   */
   return {
-    prevPath,
+    previousPath,
     path,
   };
 
