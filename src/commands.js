@@ -16,6 +16,7 @@ import {
   catLastNodeInPath,
   not,
   noArgs,
+  match,
 } from './util/util';
 
 export const pwd = (path) => sendPwdSuccess(`~/${path.join('/')}`);
@@ -50,8 +51,7 @@ export const cat = (path, data, option) => {
 }
 
 export const cd = (name, path, previousPath, data) => {
-  // handle for no args
-  if (!name || name.length === 0) {
+  if (noArgs(name)) {
     previousPath = JSON.parse(JSON.stringify(path));
     path = [];
     return {
@@ -59,8 +59,8 @@ export const cd = (name, path, previousPath, data) => {
       path,
     };
   }
-  // handle for '-' 
-  if (name === '-') {
+  const isPath = match(name);
+  if (isPath('-')) {
     const temp = JSON.parse(JSON.stringify(previousPath));
     previousPath = JSON.parse(JSON.stringify(path));
     path = JSON.parse(JSON.stringify(temp));
@@ -74,10 +74,16 @@ export const cd = (name, path, previousPath, data) => {
       path,
     };
   }
-  // get rid of this
-  if (name === '..') {
+  if (isPath('..')) {
     previousPath = JSON.parse(JSON.stringify(path));
     path.pop();
+    return {
+      previousPath,
+      path,
+    };
+  }
+
+  if (isPath('.')) {
     return {
       previousPath,
       path,
