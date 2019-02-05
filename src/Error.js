@@ -67,6 +67,18 @@ const Error = ({ data }) => {
       );
     }
   }
+  if (data.type === 'CD') {
+    if (data.code === 'INVALID_PATH') {
+      return (
+        <div className="error-msg">
+          <code>
+            {data.data}
+          </code>
+          is an invalid path, for a directory. Try using <code>cat</code>
+        </div>
+      );
+    }
+  }
   return null;
 };
 

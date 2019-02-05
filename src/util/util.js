@@ -27,6 +27,13 @@ export const sendCatIsDirectoryError = sendCatError('IS_DIRECTORY');
 export const sendCatPathRequiredError = sendCatError('PATH_REQUIRED');
 export const sendCatSuccess = sendSuccess('CAT')();
 
+// cd curry :P
+const sendCdError = sendError('CD');
+export const sendCdInvalidPathError = sendCdError('INVALID_PATH');
+// export const sendCatIsDirectoryError = sendCatError('IS_DIRECTORY');
+// export const sendCatPathRequiredError = sendCatError('PATH_REQUIRED');
+// export const sendCatSuccess = sendSuccess('CAT')();
+
 export const getNodeAtPath = (path, obj) => path.reduce((acc, el) => acc.value[el], obj);
 
 export const not = cond => !cond;
@@ -43,6 +50,17 @@ export const checkIfEveryNodeIsDirectoryExceptLastNode = (path, obj) => {
   const tempPath = [...path];
   tempPath.pop();
   return tempPath.every((el) => {
+    tempObj = tempObj.value[el];
+    return tempObj && tempObj.type === 'directory';
+  });
+};
+
+export const checkIfEveryNodeIsDirectory = (path, obj) => {
+  let { ...tempObj } = obj;
+  if (path.length <= 1) {
+    return true;
+  }
+  return path.every((el) => {
     tempObj = tempObj.value[el];
     return tempObj && tempObj.type === 'directory';
   });
