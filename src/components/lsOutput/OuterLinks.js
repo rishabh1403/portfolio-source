@@ -5,13 +5,13 @@ const OuterLinks = ({ data, contents }) => {
   if (contents.email) {
     return (
       <span className="link-name">
-        <a href={`mailto:${contents.value}`}>{data}</a>
+        <a href={`mailto:${contents.value}`}>{`${data.trim()}.sh`}</a>
       </span>
     );
   }
   return (
     <span className="link-name">
-      <a href={contents.value}>{data}</a>
+      <a href={contents.value}>{`${data.trim()}.sh`}</a>
     </span>
   );
 };
