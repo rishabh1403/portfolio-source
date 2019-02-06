@@ -93,7 +93,6 @@ export const cd = (name, path, previousPath, data) => {
   }
 
   const absolutePath = getAbsolutePath(name, path);
-  console.log(absolutePath);
   if (not(checkIfEveryNodeIsDirectory(absolutePath, data))) {
     return { ...sendCdInvalidPathError(pwd(absolutePath).data), previousPath, path };
   }
