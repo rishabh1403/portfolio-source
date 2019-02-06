@@ -9,29 +9,39 @@ const obj = {
           value: `Hey there hacker, I am Rishabh, a software engineer from India.
                    I am mostly passionate about web technologies, linux and everthing opensource`,
         },
+        credits: {
+          type: 'directory',
+          value: {
+            'thanks.txt': {
+              type: 'file',
+              value: `Would like to take a moment to thank Nitin and Andrew for all their help 
+              with extensive testing and code review `,
+            },
+          },
+        },
       },
     },
     contact: {
       type: 'directory',
       value: {
-        blog: {
+        'blog.sh': {
           type: 'link',
           value: 'https://rishabh1403.com/',
         },
-        email: {
+        'email.sh': {
           type: 'link',
           email: true,
           value: 'contact@rishabh1403.com',
         },
-        github: {
+        'github.sh': {
           type: 'link',
           value: 'https://github.com/rishabh1403/',
         },
-        twitter: {
+        'twitter.sh': {
           type: 'link',
           value: 'https://twitter.com/rishabhjain1403',
         },
-        youtube: {
+        'youtube.sh': {
           type: 'link',
           value: 'https://www.youtube.com/rishabh1403',
         },

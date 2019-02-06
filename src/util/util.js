@@ -70,7 +70,7 @@ export const getRecommendation = (name, data, path) => {
   let tempObj = { ...data };
   tempObj = path.reduce((acc, el) => acc.value[el], tempObj);
   if (typeof tempObj.value === 'object') {
-    return Object.keys(tempObj.value).filter(el => el.startsWith(name));
+    return Object.keys(tempObj.value).filter(el => el.startsWith(name))[0];
   }
   return [];
 };

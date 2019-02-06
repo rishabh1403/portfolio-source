@@ -13,7 +13,7 @@ const renderData = (data) => {
     if (el[1].type === 'file') {
       return <File key={el[0]} data={`${el[0]} `} />;
     }
-    return <OuterLinks key={el[0]} data={`${el[0]} `} contents={el[1]} />;
+    return <OuterLinks key={el[0]} data={el[0]} contents={el[1]} />;
   });
 };
 
