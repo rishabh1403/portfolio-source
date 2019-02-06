@@ -46,25 +46,25 @@ describe('Testing `ls` command', () => {
       arg = '/about';
       const res = ls(path, data, arg);
       expect(res.success).toBeTruthy();
-      expect(Object.keys(res.data)).toHaveLength(1);
+      expect(Object.keys(res.data)).toHaveLength(2);
     });
     it('should handle trailing slash', () => {
       arg = '/about/';
       const res = ls(path, data, arg);
       expect(res.success).toBeTruthy();
-      expect(Object.keys(res.data)).toHaveLength(1);
+      expect(Object.keys(res.data)).toHaveLength(2);
     });
     it('should do recursive lookup with / as prefix', () => {
       arg = '~/about';
       const res = ls(path, data, arg);
       expect(res.success).toBeTruthy();
-      expect(Object.keys(res.data)).toHaveLength(1);
+      expect(Object.keys(res.data)).toHaveLength(2);
     });
     it('should treat / as home', () => {
       arg = '~/about/';
       const res = ls(path, data, arg);
       expect(res.success).toBeTruthy();
-      expect(Object.keys(res.data)).toHaveLength(1);
+      expect(Object.keys(res.data)).toHaveLength(2);
     });
     it('should throw error when path is a file', () => {
       arg = '/about/info.txt';
@@ -90,19 +90,19 @@ describe('Testing `ls` command', () => {
       arg = 'about';
       const res = ls(path, data, arg);
       expect(res.success).toBeTruthy();
-      expect(Object.keys(res.data)).toHaveLength(1);
+      expect(Object.keys(res.data)).toHaveLength(2);
     });
     it('should handle trailing slash', () => {
       arg = 'about/';
       const res = ls(path, data, arg);
       expect(res.success).toBeTruthy();
-      expect(Object.keys(res.data)).toHaveLength(1);
+      expect(Object.keys(res.data)).toHaveLength(2);
     });
     it('should handle recursive path inside root', () => {
       path = ['about'];
       const res = ls(path, data);
       expect(res.success).toBeTruthy();
-      expect(Object.keys(res.data)).toHaveLength(1);
+      expect(Object.keys(res.data)).toHaveLength(2);
     });
     it('should throw error when path is a file', () => {
       arg = 'info.txt';

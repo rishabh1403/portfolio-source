@@ -67,7 +67,7 @@ class App extends Component {
     const { command, home, path } = this.state;
     const commandArray = command.split(' ');
     const name = getRecommendation(commandArray[1], home, path);
-    if (name.length > 0) {
+    if (name && name.length > 0) {
       this.setState({
         command: `${commandArray[0]} ${name}`,
       }, () => {
