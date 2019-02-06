@@ -57,7 +57,7 @@ export const checkIfEveryNodeIsDirectoryExceptLastNode = (path, obj) => {
 
 export const checkIfEveryNodeIsDirectory = (path, obj) => {
   let { ...tempObj } = obj;
-  if (path.length <= 1) {
+  if (path.length < 1) {
     return true;
   }
   return path.every((el) => {
