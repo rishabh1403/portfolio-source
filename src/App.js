@@ -31,6 +31,7 @@ class App extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.contentEditable = React.createRef();
     this.textInput = React.createRef();
+    this.scrollToBottom = this.scrollToBottom.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +41,14 @@ class App extends Component {
     }, 100);
     // eslint-disable-next-line
     console.log("%cNitin Stop Looking At my console for errors, now you won't find any", 'background: black; color: green; font-size: x-large');
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    this.messagesEnd.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
   }
 
   handleChange(evt) {
@@ -197,7 +206,7 @@ class App extends Component {
   render() {
     const { presentWorkingDirectory, command } = this.state;
     return (
-      <React.Fragment>
+      <div ref={(el) => { this.messagesEnd = el; }}>
         <WelcomeText />
         {this.renderCommands()}
         <ShellPrompt path={presentWorkingDirectory} />
@@ -215,7 +224,9 @@ class App extends Component {
           tagName="span"
         />
         <div className="cursor" />
-      </React.Fragment>
+        <br />
+        <br />
+      </div>
     );
   }
 }

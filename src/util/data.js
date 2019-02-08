@@ -7,7 +7,7 @@ const obj = {
         'info.txt': {
           type: 'file',
           value: `Hey there hacker, I am Rishabh, a software engineer from India.
-                   I am mostly passionate about web technologies, linux and everthing opensource`,
+                   I am mostly passionate about web technologies, linux and everything opensource`,
         },
         credits: {
           type: 'directory',
